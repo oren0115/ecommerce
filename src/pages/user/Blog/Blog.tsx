@@ -30,9 +30,9 @@ const BlogPage: React.FC = () => {
       if (searchTerm) params.search = searchTerm;
       if (selectedCategory) params.category = selectedCategory;
 
-      console.log("Fetching blogs with params:", params);
+      // console.log("Fetching blogs with params:", params);
       const response = await blogAPI.getPublished(params);
-      console.log("Blog API Response:", response);
+      // console.log("Blog API Response:", response);
 
       // Handle different response structures
       let blogsData: any[] = [];
@@ -51,7 +51,7 @@ const BlogPage: React.FC = () => {
           blogsData = responseData.blogs;
           totalCount = (responseData as any).total || responseData.blogs.length;
         } else {
-          console.warn("Unexpected response structure:", responseData);
+          // console.warn("Unexpected response structure:", responseData);
           blogsData = [];
           totalCount = 0;
         }
@@ -66,17 +66,17 @@ const BlogPage: React.FC = () => {
             (response.data as any).pagination?.total ||
             (response.data as any).items.length;
         } else {
-          console.warn(
-            "No success flag and unexpected structure:",
-            response.data
-          );
+          // console.warn(
+          //   // "No success flag and unexpected structure:",
+          //   response.data
+          // );
           blogsData = [];
           totalCount = 0;
         }
       }
 
-      console.log("Parsed blogs data:", blogsData);
-      console.log("Total count:", totalCount);
+      // console.log("Parsed blogs data:", blogsData);
+      // console.log("Total count:", totalCount);
 
       // Filter out invalid blogs
       const validBlogs = blogsData.filter(
@@ -88,12 +88,12 @@ const BlogPage: React.FC = () => {
           blog.slug
       );
 
-      console.log("Valid blogs:", validBlogs);
+      // console.log("Valid blogs:", validBlogs);
 
       setBlogs(validBlogs);
       setTotalPages(Math.ceil(totalCount / 9));
     } catch (err: any) {
-      console.error("Error fetching blogs:", err);
+      // console.error("Error fetching blogs:", err);
       setError(err.response?.data?.message || "Failed to fetch blog posts");
       setBlogs([]);
     } finally {
@@ -110,7 +110,7 @@ const BlogPage: React.FC = () => {
         day: "numeric",
       });
     } catch (error) {
-      console.error("Error formatting date:", error);
+      // console.error("Error formatting date:", error);
       return "Invalid date";
     }
   };
