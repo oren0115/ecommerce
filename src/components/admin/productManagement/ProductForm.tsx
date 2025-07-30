@@ -103,15 +103,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       (file) => file && file instanceof File
     );
     if (validImageFiles.length !== imageFiles.length) {
-      console.log("Cleaning up invalid files from imageFiles array");
-      console.log(
-        "Before cleanup:",
-        imageFiles.map((f) => f?.name || "undefined")
-      );
-      console.log(
-        "After cleanup:",
-        validImageFiles.map((f) => f.name)
-      );
+
       setImageFiles(validImageFiles);
     }
   }, [imageFiles]);
@@ -145,10 +137,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       return;
     }
 
-    console.log(
-      "Adding valid files:",
-      validFiles.map((f) => f.name)
-    );
+
     setImageFiles((p) => [...p, ...validFiles]);
 
     const newPreviews: string[] = [];
@@ -283,7 +272,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
               url: imageUrl, // Don't add cache busting here - backend should store clean URLs
               order: uploadedImages.length,
             });
-            console.log("Successfully uploaded:", file.name);
+
           }
         } catch (uploadError) {
           console.error("Failed to upload file:", file.name, uploadError);
@@ -299,7 +288,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         images: uploadedImages,
       };
 
-      console.log("Submitting data to backend:", submitData);
+
       onSubmit(submitData);
     } catch (error) {
       console.error("Error uploading images:", error);

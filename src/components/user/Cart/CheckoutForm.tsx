@@ -165,8 +165,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
         deliveryType: formData.deliveryType,
       };
 
-      console.log("Sending order data:", orderData);
-      console.log("Cart items:", cart.items);
+
 
       const response = await orderAPI.create(orderData as any);
 

@@ -90,7 +90,6 @@ const OrderManagement: React.FC<OrderManagementProps> = () => {
 
   const handleExportOrders = () => {
     // TODO: Implement export functionality
-    console.log("Export orders functionality to be implemented");
   };
 
   return (

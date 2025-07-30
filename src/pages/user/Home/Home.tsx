@@ -19,19 +19,14 @@ function Home() {
   useEffect(() => {
     const fetchLatestProducts = async () => {
       try {
-        console.log(
-          "Fetching products from:",
-          import.meta.env.VITE_API_URL || ""
-        );
         const response = await productAPI.getAll({ limit: 12 });
-        console.log("API Response:", response.data);
         if ((response.data as any).success) {
           const products = (response.data as any).data.items || [];
 
           // Add cache busting to product images
           const productsWithCacheBusting = addCacheBustingToProducts(products);
 
-          console.log("Products fetched:", productsWithCacheBusting);
+
           setLatestProducts(productsWithCacheBusting);
         } else {
           console.error("API response not successful:", response.data);
@@ -50,7 +45,6 @@ function Home() {
   // Listen for product update events
   useEffect(() => {
     const handleProductUpdate = () => {
-      console.log("Product update detected in home, refreshing...");
       // Reload the page to get fresh data
       window.location.reload();
     };
@@ -64,9 +58,6 @@ function Home() {
     // Listen for service worker messages
     const handleServiceWorkerMessage = (event: MessageEvent) => {
       if (event.data?.type === "PRODUCT_UPDATED") {
-        console.log(
-          "Product update detected via service worker in home, refreshing..."
-        );
         window.location.reload();
       }
     };
@@ -90,7 +81,6 @@ function Home() {
 
   const handleAddToCart = (product: Product) => {
     // TODO: Implement add to cart functionality
-    console.log("Add to cart:", product);
   };
 
   const handleViewDetail = (productId: string) => {
@@ -106,7 +96,6 @@ function Home() {
   };
 
   const handlePromotionalClick = (slide: any) => {
-    console.log("Promotional slide clicked:", slide);
     // Navigate to shop or specific category based on slide
     window.location.href = "/shop";
   };

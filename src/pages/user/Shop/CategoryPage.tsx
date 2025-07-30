@@ -38,7 +38,7 @@ function CategoryPage() {
         ...(searchTerm && { search: searchTerm }),
         ...(selectedCategory && { category: selectedCategory }),
       };
-      console.log("CategoryPage: Fetching data with params:", apiParams);
+
 
       // Fetch categories and products in parallel for better performance
       const [categoriesResponse, productsResponse] = await Promise.allSettled([
@@ -78,14 +78,7 @@ function CategoryPage() {
         const paginationData = (productsResponse.value.data as any)?.data
           ?.pagination;
 
-        // Debug log untuk response pagination
-        console.log("CategoryPage: API Response pagination:", paginationData);
-        console.log(
-          "CategoryPage: Total count:",
-          totalCount,
-          "Products length:",
-          productsData.length
-        );
+
 
         // Add cache busting to product images
         const productsWithCacheBusting =
@@ -95,10 +88,7 @@ function CategoryPage() {
         setTotalProducts(totalCount);
 
         const calculatedTotalPages = Math.ceil(totalCount / 12);
-        console.log(
-          "CategoryPage: Calculated total pages:",
-          calculatedTotalPages
-        );
+
         setTotalPages(calculatedTotalPages);
       } else {
         console.error("Failed to fetch products:", productsResponse.reason);
@@ -119,7 +109,6 @@ function CategoryPage() {
   // Listen for product update events
   useEffect(() => {
     const handleProductUpdate = () => {
-      console.log("Product update detected in category page, refreshing...");
       fetchData();
     };
 
@@ -178,7 +167,6 @@ function CategoryPage() {
 
   const handleAddToCart = (product: Product) => {
     // TODO: Implement add to cart functionality
-    console.log("Add to cart:", product);
     // You can add toast notification here
     alert(`Added ${product.name} to cart!`);
   };

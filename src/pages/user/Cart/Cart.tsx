@@ -61,8 +61,6 @@ const Cart: React.FC = () => {
   };
 
   const handleCheckoutSuccess = (data: any) => {
-    console.log('Order placed successfully:', data);
-    
     if (data.type === 'qris' && data.qrCode) {
       // Show QRIS payment modal
       setQrisPayment({

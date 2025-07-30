@@ -45,7 +45,7 @@ const ProductDetailPage: React.FC = () => {
         const sizesData = (sizesResponse.data as any)?.data || [];
         setSizes(Array.isArray(sizesData) ? sizesData : []);
       } catch (sizeError) {
-        console.log("No sizes available for this product");
+        // No sizes available for this product
       }
     } catch (err: any) {
       console.error("Error fetching product:", err);
@@ -77,7 +77,6 @@ const ProductDetailPage: React.FC = () => {
   useEffect(() => {
     const handleProductUpdate = (event: CustomEvent) => {
       if (event.detail?.productId === id) {
-        console.log("Product update detected, refreshing...");
         forceRefresh();
       }
     };
@@ -94,9 +93,6 @@ const ProductDetailPage: React.FC = () => {
         event.data?.type === "PRODUCT_UPDATED" &&
         event.data?.productId === id
       ) {
-        console.log(
-          "Product update detected via service worker, refreshing..."
-        );
         forceRefresh();
       }
     };

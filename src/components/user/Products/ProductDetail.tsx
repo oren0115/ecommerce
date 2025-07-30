@@ -50,7 +50,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                 "https://via.placeholder.com/400x400?text=No+Image"
               }
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               fallbackSrc="https://via.placeholder.com/400x400?text=No+Image"
             />
           </div>
@@ -75,7 +75,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                       image || "https://via.placeholder.com/80x80?text=No+Image"
                     }
                     alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-cover rounded"
+                    className="w-full h-full object-contain rounded"
                     fallbackSrc="https://via.placeholder.com/80x80?text=No+Image"
                   />
                 </Button>

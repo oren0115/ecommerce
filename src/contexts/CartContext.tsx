@@ -187,13 +187,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     if (isAuthenticated) {
       try {
         setIsLoading(true);
-        console.log("Loading cart from database...");
         const response = await cartAPI.getCart();
-        console.log("Cart API response:", response.data);
 
         if ((response.data as any)?.success) {
           const cartData = (response.data as any)?.data;
-          console.log("Cart data from API:", cartData);
 
           // Transform cart items to ensure productId is always a string
           const transformedItems = (cartData.items || []).map((item: any) => ({
@@ -211,7 +208,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
             total: cartData.total || 0,
           };
 
-          console.log("Formatted cart data:", formattedCart);
+
           dispatch({
             type: "LOAD_CART",
             payload: formattedCart,
@@ -270,7 +267,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    console.log("Cart state changed:", cart);
     saveCart(cart);
   }, [cart, isAuthenticated]);
 
@@ -301,14 +297,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const removeFromCart = async (productId: string) => {
-    console.log("removeFromCart called with productId:", productId);
-    console.log("isAuthenticated:", isAuthenticated);
-
     if (isAuthenticated) {
       try {
-        console.log("Calling API to remove from cart...");
         await cartAPI.removeFromCart(productId);
-        console.log("API call successful, reloading cart...");
         // Reload cart from database
         await loadCart();
       } catch (error) {
@@ -317,7 +308,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         dispatch({ type: "REMOVE_ITEM", payload: { productId } });
       }
     } else {
-      console.log("User not authenticated, using local state...");
       // For non-authenticated users, use local state
       dispatch({ type: "REMOVE_ITEM", payload: { productId } });
     }

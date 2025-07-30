@@ -86,7 +86,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   };
 
   const handleRemove = () => {
-    console.log("Remove button clicked for product:", item.productId);
     removeFromCart(item.productId);
   };
 

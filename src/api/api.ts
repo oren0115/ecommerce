@@ -3,6 +3,7 @@ import axios from "axios";
 // API base URL
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "https://api-be-marketplace.onrender.com";
+// import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // Create axios instance
 const api = axios.create({
@@ -57,9 +58,7 @@ api.interceptors.response.use(
 // Health check function
 export const healthCheck = async () => {
   try {
-    console.log("Checking backend health...");
     const response = await api.get("/health");
-    console.log("Backend health check response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Backend health check failed:", error);
@@ -106,35 +105,29 @@ export const productAPI = {
   }) => {
     const cacheBust = Date.now();
     const finalParams = { ...params, _t: cacheBust };
-    console.log("ProductAPI.getAll called with params:", finalParams);
     return api.get("/api/products", { params: finalParams });
   },
 
   getById: (id: string) => {
     const cacheBust = Date.now();
-    console.log("ProductAPI.getById called for id:", id);
     return api.get(`/api/products/${id}?_t=${cacheBust}`);
   },
 
   getRelated: (productId: string, limit?: number) => {
     const cacheBust = Date.now();
     const params = { limit, _t: cacheBust };
-    console.log("ProductAPI.getRelated called for productId:", productId);
     return api.get(`/api/products/${productId}/related`, { params });
   },
 
   create: (data: any) => {
-    console.log("ProductAPI.create called with data:", data);
     return api.post("/api/products", data);
   },
 
   update: (id: string, data: any) => {
-    console.log("ProductAPI.update called for id:", id, "with data:", data);
     return api.put(`/api/products/${id}`, data);
   },
 
   delete: (id: string) => {
-    console.log("ProductAPI.delete called for id:", id);
     return api.delete(`/api/products/${id}`);
   },
 
@@ -155,27 +148,20 @@ export const productAPI = {
     const formData = new FormData();
     formData.append("image", file);
 
-    console.log(
-      "ProductAPI.uploadImage called for file:",
-      file.name,
-      "size:",
-      file.size
-    );
-
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {
         const response = await api.post("/api/upload/product", formData, {
           headers: { "Content-Type": "multipart/form-data" },
           timeout: 30000, // 30 second timeout
         });
-        console.log("Upload successful on attempt:", attempt);
+
         return response;
       } catch (error: any) {
         console.error(`Upload attempt ${attempt} failed:`, error);
         if (error.response?.status === 429 && attempt < retries) {
           // Rate limited - wait before retrying
           const waitTime = Math.pow(2, attempt) * 1000; // Exponential backoff
-          console.log(`Upload rate limited, retrying in ${waitTime}ms...`);
+
           await new Promise((resolve) => setTimeout(resolve, waitTime));
           continue;
         }

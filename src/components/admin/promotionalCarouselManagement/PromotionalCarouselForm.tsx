@@ -129,7 +129,7 @@ const PromotionalCarouselForm: React.FC<PromotionalCarouselFormProps> = ({
         endDate: "",
       };
 
-      console.log("Submitting data:", submitData);
+
       onSubmit(submitData);
     }
   };

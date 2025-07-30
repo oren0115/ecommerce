@@ -38,7 +38,6 @@ function Shop() {
         ...(searchTerm && { search: searchTerm }),
         ...(selectedCategory && { category: selectedCategory }),
       };
-      console.log("Shop: Fetching data with params:", apiParams);
 
       // Fetch categories and products in parallel for better performance
       const [categoriesResponse, productsResponse] = await Promise.allSettled([
@@ -91,32 +90,15 @@ function Shop() {
         const paginationData = (productsResponse.value.data as any)?.data
           ?.pagination;
 
-        // Debug log untuk response pagination
-        console.log("Shop: API Response pagination:", paginationData);
-        console.log(
-          "Shop: Total count:",
-          totalCount,
-          "Products length:",
-          productsData.length
-        );
-
         // Add cache busting to product images
         const productsWithCacheBusting =
           addCacheBustingToProducts(productsData);
 
-        // Tambahkan log untuk cek salesCount
-        console.log(
-          "Produk dari API:",
-          productsWithCacheBusting.map((p: Product) => ({
-            name: p.name,
-            salesCount: p.salesCount,
-          }))
-        );
         setProducts(productsWithCacheBusting);
         setTotalProducts(totalCount);
 
         const calculatedTotalPages = Math.ceil(totalCount / 12);
-        console.log("Shop: Calculated total pages:", calculatedTotalPages);
+
         setTotalPages(calculatedTotalPages);
       } else {
         console.error("Failed to fetch products:", productsResponse.reason);
@@ -137,7 +119,6 @@ function Shop() {
   // Listen for product update events
   useEffect(() => {
     const handleProductUpdate = () => {
-      console.log("Product update detected in shop, refreshing...");
       fetchData();
     };
 
@@ -150,9 +131,6 @@ function Shop() {
     // Listen for service worker messages
     const handleServiceWorkerMessage = (event: MessageEvent) => {
       if (event.data?.type === "PRODUCT_UPDATED") {
-        console.log(
-          "Product update detected via service worker in shop, refreshing..."
-        );
         fetchData();
       }
     };
@@ -196,7 +174,6 @@ function Shop() {
 
   const handleAddToCart = (product: Product) => {
     // TODO: Implement add to cart functionality
-    console.log("Add to cart:", product);
     // You can add toast notification here
     alert(`Added ${product.name} to cart!`);
   };

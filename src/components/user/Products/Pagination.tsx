@@ -49,24 +49,10 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   const handlePageChange = (page: number) => {
-    console.log(
-      "Pagination: Changing to page",
-      page,
-      "from current page",
-      currentPage
-    );
     onPageChange(page);
   };
 
   const visiblePages = getVisiblePages();
-  console.log(
-    "Pagination: Current page:",
-    currentPage,
-    "Total pages:",
-    totalPages,
-    "Visible pages:",
-    visiblePages
-  );
 
   return (
     <div className="mt-8 flex justify-center">

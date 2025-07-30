@@ -96,13 +96,9 @@ const PromotionalCarouselManagement: React.FC = () => {
 
   const handleFormSubmit = async (slideData: CreatePromotionalSlideData) => {
     try {
-      console.log("Submitting slide data:", slideData);
-
       if (editingSlide) {
-        console.log("Updating existing slide:", editingSlide._id);
         await promotionalCarouselAPI.update(editingSlide._id, slideData as any);
       } else {
-        console.log("Creating new slide");
         await promotionalCarouselAPI.create(slideData as any);
       }
 

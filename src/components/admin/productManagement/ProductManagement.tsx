@@ -102,15 +102,12 @@ const ProductManagement: React.FC = () => {
 
     const attemptSave = async (): Promise<void> => {
       try {
-        console.log(
-          `Attempt ${retryCount + 1} of ${maxRetries} - Submitting product data:`,
-          productData
-        );
+
 
         // Check backend health first
         try {
           await healthCheck();
-          console.log("Backend health check passed");
+
         } catch (healthError) {
           console.error("Backend health check failed:", healthError);
           throw new Error(
@@ -119,12 +116,10 @@ const ProductManagement: React.FC = () => {
         }
 
         if (editingProduct) {
-          console.log("Updating product:", editingProduct._id);
           const response = await productAPI.update(
             editingProduct._id,
             productData as any
           );
-          console.log("Update response:", response);
 
           // Broadcast product update event to user pages
           window.dispatchEvent(
@@ -143,9 +138,7 @@ const ProductManagement: React.FC = () => {
             });
           }
         } else {
-          console.log("Creating new product");
           const response = await productAPI.create(productData as any);
-          console.log("Create response:", response);
         }
 
         setShowForm(false);
@@ -160,7 +153,7 @@ const ProductManagement: React.FC = () => {
 
         if (err.response?.status === 503 && retryCount < maxRetries - 1) {
           retryCount++;
-          console.log(`Retrying in 2 seconds... (${retryCount}/${maxRetries})`);
+
           await new Promise((resolve) => setTimeout(resolve, 2000));
           return attemptSave();
         }
