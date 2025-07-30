@@ -29,12 +29,16 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
   // Responsive items per view
   useEffect(() => {
     const updateItemsPerView = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerView(1);
+      if (window.innerWidth < 640) {
+        setItemsPerView(1); // Mobile: 1 item
+      } else if (window.innerWidth < 768) {
+        setItemsPerView(2); // Small (sm): 2 items
       } else if (window.innerWidth < 1024) {
-        setItemsPerView(2);
+        setItemsPerView(3); // Tablet: 3 items
+      } else if (window.innerWidth < 1280) {
+        setItemsPerView(4); // Desktop: 4 items
       } else {
-        setItemsPerView(4);
+        setItemsPerView(5); // Large desktop: 5 items
       }
     };
 
@@ -165,12 +169,16 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
                 {slideProducts.map((product) => (
                   <div
                     key={product._id}
-                    className={`px-2 ${
+                    className={`px-1 sm:px-2 ${
                       itemsPerView === 1
                         ? "w-full"
                         : itemsPerView === 2
                           ? "w-1/2"
-                          : "w-1/4"
+                          : itemsPerView === 3
+                            ? "w-1/3"
+                            : itemsPerView === 4
+                              ? "w-1/4"
+                              : "w-1/5"
                     }`}>
                     <ProductCard
                       product={product}

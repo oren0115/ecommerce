@@ -25,12 +25,14 @@ const BestSellingSection: React.FC<BestSellingSectionProps> = ({
   // Responsive items per view
   useEffect(() => {
     const updateItemsPerView = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerView(2);
+      if (window.innerWidth < 640) {
+        setItemsPerView(1); // Mobile: 1 item
+      } else if (window.innerWidth < 768) {
+        setItemsPerView(2); // Small (sm): 2 items
       } else if (window.innerWidth < 1024) {
-        setItemsPerView(2);
+        setItemsPerView(3); // Tablet: 3 items
       } else {
-        setItemsPerView(4);
+        setItemsPerView(4); // Desktop: 4 items
       }
     };
 
@@ -313,8 +315,14 @@ const BestSellingSection: React.FC<BestSellingSectionProps> = ({
                   {slideProducts.map((product) => (
                     <div
                       key={product._id}
-                      className={`px-2 ${
-                        itemsPerView === 2 ? "w-1/2" : "w-1/4"
+                      className={`px-1 sm:px-2 ${
+                        itemsPerView === 1
+                          ? "w-full"
+                          : itemsPerView === 2
+                            ? "w-1/2"
+                            : itemsPerView === 3
+                              ? "w-1/3"
+                              : "w-1/4"
                       }`}>
                       <div className="group">
                         <div className="relative">

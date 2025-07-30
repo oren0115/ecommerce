@@ -116,9 +116,6 @@ function CategoryPage() {
     // Listen for service worker messages
     const handleServiceWorkerMessage = (event: MessageEvent) => {
       if (event.data?.type === "PRODUCT_UPDATED") {
-        console.log(
-          "Product update detected via service worker in category page, refreshing..."
-        );
         fetchData();
       }
     };

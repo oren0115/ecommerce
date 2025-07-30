@@ -14,23 +14,23 @@ const ProductGrid: React.FC<ProductGridProps> = memo(
   ({ products, loading = false, onAddToCart, onViewDetail }) => {
     if (loading) {
       return (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
           {[...Array(12)].map((_, i) => (
             <Card key={i} className="w-full">
-              <CardBody className="p-4">
-                <Skeleton className="w-full h-48 rounded-lg mb-4" />
-                <div className="space-y-3">
+              <CardBody className="p-3 sm:p-4">
+                <Skeleton className="w-full h-40 sm:h-48 rounded-lg mb-3 sm:mb-4" />
+                <div className="space-y-2 sm:space-y-3">
                   <Skeleton className="w-3/4 rounded-lg">
-                    <div className="h-4 bg-default-200"></div>
+                    <div className="h-3 sm:h-4 bg-default-200"></div>
                   </Skeleton>
                   <Skeleton className="w-1/2 rounded-lg">
-                    <div className="h-4 bg-default-200"></div>
+                    <div className="h-3 sm:h-4 bg-default-200"></div>
                   </Skeleton>
                   <Skeleton className="w-2/3 rounded-lg">
-                    <div className="h-4 bg-default-200"></div>
+                    <div className="h-3 sm:h-4 bg-default-200"></div>
                   </Skeleton>
                   <Skeleton className="w-full rounded-lg">
-                    <div className="h-10 bg-default-200"></div>
+                    <div className="h-8 sm:h-10 bg-default-200"></div>
                   </Skeleton>
                 </div>
               </CardBody>
@@ -43,10 +43,10 @@ const ProductGrid: React.FC<ProductGridProps> = memo(
     if (products.length === 0) {
       return (
         <Card className="w-full">
-          <CardBody className="p-12 text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-default-100 rounded-full flex items-center justify-center">
+          <CardBody className="p-8 sm:p-12 text-center">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 bg-default-100 rounded-full flex items-center justify-center">
               <svg
-                className="w-8 h-8 text-default-400"
+                className="w-6 h-6 sm:w-8 sm:h-8 text-default-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -58,10 +58,10 @@ const ProductGrid: React.FC<ProductGridProps> = memo(
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">
               No products found
             </h3>
-            <p className="text-default-500">
+            <p className="text-sm sm:text-base text-default-500">
               Try adjusting your search or filter criteria.
             </p>
           </CardBody>
@@ -70,7 +70,7 @@ const ProductGrid: React.FC<ProductGridProps> = memo(
     }
 
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
         {products.map((product) => (
           <ProductCard
             key={product._id}

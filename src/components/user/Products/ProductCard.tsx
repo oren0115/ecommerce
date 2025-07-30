@@ -93,7 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetail }) => {
 
         {/* Product Info */}
         <div
-          className="space-y-2 p-3 cursor-pointer"
+          className="space-y-1.5 sm:space-y-2 p-2 sm:p-3 cursor-pointer"
           onClick={handleViewDetail}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -104,7 +104,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetail }) => {
           tabIndex={0}
           role="button">
           {/* Product Name */}
-          <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+          <h3 className="text-xs sm:text-sm font-medium text-foreground line-clamp-2 leading-tight">
             {product.name}
           </h3>
 
@@ -116,12 +116,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetail }) => {
               showReviewCount={false}
               size="sm"
             />
-            <span>{formatSalesCount(product.salesCount)} sold</span>
+            <span className="text-xs">
+              {formatSalesCount(product.salesCount)} sold
+            </span>
           </div>
 
           {/* Price */}
-          <div className="flex items-baseline space-x-2">
-            <span className="text-sm font-medium text-foreground">
+          <div className="flex items-baseline space-x-1 sm:space-x-2">
+            <span className="text-xs sm:text-sm font-medium text-foreground">
               {formatPrice(product.discountedPrice)}
             </span>
             {product.discountPercent > 0 && (
