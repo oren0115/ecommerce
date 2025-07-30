@@ -96,7 +96,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
       // Refetch eligibility after review
       reviewAPI
         .checkEligibility(productId)
-        .then((res) => setEligibility((res.data as any).data));
+        .then((res: any) => setEligibility((res.data as any).data));
     } catch (error: any) {
       if (error?.response?.status === 401) {
         alert("Silakan login untuk memberikan review.");
