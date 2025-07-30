@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Blog } from "../../../types";
 import { blogAPI } from "../../../api/api";
+import "../../../styles/BlogPage.css";
 
 const BlogPage: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -29,27 +30,89 @@ const BlogPage: React.FC = () => {
       if (searchTerm) params.search = searchTerm;
       if (selectedCategory) params.category = selectedCategory;
 
+      console.log("Fetching blogs with params:", params);
       const response = await blogAPI.getPublished(params);
+      console.log("Blog API Response:", response);
 
-      const blogsData = (response.data as any)?.data?.items || [];
-      const totalCount = (response.data as any)?.data?.pagination?.total || 0;
+      // Handle different response structures
+      let blogsData: any[] = [];
+      let totalCount = 0;
 
-      setBlogs(Array.isArray(blogsData) ? blogsData : []);
+      if ((response.data as any)?.success) {
+        // Try different possible data structures
+        const responseData = (response.data as any)?.data;
+        if (responseData?.items) {
+          blogsData = responseData.items;
+          totalCount = (responseData as any).pagination?.total || 0;
+        } else if (Array.isArray(responseData)) {
+          blogsData = responseData;
+          totalCount = responseData.length;
+        } else if (responseData?.blogs) {
+          blogsData = responseData.blogs;
+          totalCount = (responseData as any).total || responseData.blogs.length;
+        } else {
+          console.warn("Unexpected response structure:", responseData);
+          blogsData = [];
+          totalCount = 0;
+        }
+      } else {
+        // Direct response without success wrapper
+        if (Array.isArray(response.data)) {
+          blogsData = response.data;
+          totalCount = response.data.length;
+        } else if ((response.data as any)?.items) {
+          blogsData = (response.data as any).items;
+          totalCount =
+            (response.data as any).pagination?.total ||
+            (response.data as any).items.length;
+        } else {
+          console.warn(
+            "No success flag and unexpected structure:",
+            response.data
+          );
+          blogsData = [];
+          totalCount = 0;
+        }
+      }
+
+      console.log("Parsed blogs data:", blogsData);
+      console.log("Total count:", totalCount);
+
+      // Filter out invalid blogs
+      const validBlogs = blogsData.filter(
+        (blog: any) =>
+          blog &&
+          blog._id &&
+          blog.title &&
+          blog.title.trim() !== "" &&
+          blog.slug
+      );
+
+      console.log("Valid blogs:", validBlogs);
+
+      setBlogs(validBlogs);
       setTotalPages(Math.ceil(totalCount / 9));
     } catch (err: any) {
       console.error("Error fetching blogs:", err);
       setError(err.response?.data?.message || "Failed to fetch blog posts");
+      setBlogs([]);
     } finally {
       setLoading(false);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    if (!dateString) return "No date";
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid date";
+    }
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -143,7 +206,26 @@ const BlogPage: React.FC = () => {
         {/* Error State */}
         {error && (
           <div className="mb-8 p-4 bg-red-50 border border-red-100 rounded-lg">
-            <p className="text-red-600 text-sm">{error}</p>
+            <div className="flex items-center">
+              <svg
+                className="w-5 h-5 text-red-500 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
+            <button
+              onClick={() => fetchBlogs()}
+              className="mt-2 text-red-600 hover:text-red-800 text-sm underline">
+              Try again
+            </button>
           </div>
         )}
 
@@ -165,10 +247,12 @@ const BlogPage: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No articles found
+              {error ? "Failed to load articles" : "No articles found"}
             </h3>
             <p className="text-gray-500">
-              Try adjusting your search or filters
+              {error
+                ? "Please try again later"
+                : "Try adjusting your search or filters"}
             </p>
           </div>
         ) : (
@@ -183,10 +267,15 @@ const BlogPage: React.FC = () => {
                       <div className="mb-6 overflow-hidden rounded-lg">
                         <img
                           src={blog.featuredImage.url}
-                          alt={blog.title}
+                          alt={blog.title || "Blog post"}
                           className={`w-full object-cover transition-transform duration-700 group-hover:scale-105 ${
                             index === 0 ? "h-80" : "h-64"
                           }`}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src =
+                              "https://via.placeholder.com/400x300?text=No+Image";
+                          }}
                         />
                       </div>
                     )}
@@ -199,7 +288,7 @@ const BlogPage: React.FC = () => {
                           {formatDate(blog.publishedAt || blog.createdAt)}
                         </time>
                         <span>•</span>
-                        <span>{blog.readTime} min read</span>
+                        <span>{blog.readTime || 5} min read</span>
                         {blog.category && (
                           <>
                             <span>•</span>
@@ -213,26 +302,33 @@ const BlogPage: React.FC = () => {
                         className={`font-medium text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 ${
                           index === 0 ? "text-2xl leading-tight" : "text-xl"
                         }`}>
-                        {blog.title}
+                        {blog.title || "Untitled Article"}
                       </h2>
 
                       {/* Excerpt */}
                       <p className="text-gray-600 leading-relaxed line-clamp-3">
-                        {blog.excerpt || blog.content.substring(0, 200)}...
+                        {blog.excerpt ||
+                          (blog.content
+                            ? blog.content.substring(0, 200) + "..."
+                            : "No content available")}
                       </p>
 
                       {/* Author */}
                       <div className="flex items-center pt-2">
-                        {blog.author.avatar && (
+                        {blog.author?.avatar && (
                           <img
                             src={blog.author.avatar}
-                            alt={blog.author.fullname}
+                            alt={blog.author.fullname || "Author"}
                             className="w-10 h-10 rounded-full mr-3"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = "none";
+                            }}
                           />
                         )}
                         <div>
                           <p className="font-medium text-gray-900 text-sm">
-                            {blog.author.fullname}
+                            {blog.author?.fullname || "Unknown Author"}
                           </p>
                         </div>
                       </div>

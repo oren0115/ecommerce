@@ -1,0 +1,172 @@
+/* Blog Section Styles */
+.blog-article {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.blog-article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.blog-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.blog-image-container img {
+  transition: transform 0.5s ease;
+}
+
+.blog-article:hover .blog-image-container img {
+  transform: scale(1.05);
+}
+
+.blog-content {
+  padding: 1.5rem;
+}
+
+.blog-meta {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.blog-meta-dot {
+  background-color: #d1d5db;
+  border-radius: 50%;
+}
+
+.blog-title {
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.blog-article:hover .blog-title {
+  color: #374151;
+}
+
+.blog-excerpt {
+  color: #6b7280;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.blog-tag {
+  background-color: #f9fafb;
+  color: #6b7280;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.blog-article:hover .blog-tag {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.blog-read-more {
+  color: #6b7280;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.blog-read-more-icon {
+  transition: transform 0.3s ease;
+}
+
+.blog-article:hover .blog-read-more {
+  color: #374151;
+}
+
+.blog-article:hover .blog-read-more-icon {
+  transform: translateX(4px);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .blog-content {
+    padding: 1rem;
+  }
+
+  .blog-title {
+    font-size: 1.125rem;
+  }
+
+  .blog-excerpt {
+    font-size: 0.875rem;
+  }
+}
+
+/* Loading skeleton animations */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Error and empty states */
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.error-state svg,
+.empty-state svg {
+  margin: 0 auto 1rem;
+}
+
+/* Hover effects for interactive elements */
+.blog-article {
+  cursor: pointer;
+}
+
+.blog-article:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .blog-article,
+  .blog-image-container img,
+  .blog-title,
+  .blog-tag,
+  .blog-read-more,
+  .blog-read-more-icon {
+    transition: none;
+  }
+}

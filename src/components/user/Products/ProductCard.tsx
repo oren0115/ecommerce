@@ -126,11 +126,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetail }) => {
             <span className="text-xs sm:text-sm font-medium text-foreground">
               {formatPrice(product.discountedPrice)}
             </span>
-            {product.discountPercent > 0 && (
+            {/* {product.discountPercent > 0 && (
               <span className="text-xs text-default-400 line-through">
                 {formatPrice(product.price)}
               </span>
-            )}
+            )} */}
           </div>
         </div>
       </CardBody>

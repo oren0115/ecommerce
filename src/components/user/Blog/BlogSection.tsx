@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Image, Skeleton, Button } from "@heroui/react";
 import { Blog } from "@/types";
 import { blogAPI } from "@/api/api";
-// import "@/styles/BlogSection.css";
+import "@/styles/BlogSection.css";
 
 interface BlogSectionProps {
   title?: string;
@@ -17,17 +17,43 @@ const BlogSection: React.FC<BlogSectionProps> = ({
 }) => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const response = await blogAPI.getPublished({ limit });
+
+        // Debug response
+        // console.log("Blog API Response:", response);
+
         if ((response.data as any)?.success) {
-          const blogsData = (response.data as any)?.data.items || [];
-          setBlogs(Array.isArray(blogsData) ? blogsData : []);
+          const blogsData =
+            (response.data as any)?.data?.items ||
+            (response.data as any)?.data ||
+            [];
+          // console.log("Blogs Data:", blogsData);
+
+          // Ensure blogsData is an array and has valid items
+          if (Array.isArray(blogsData)) {
+            const validBlogs = blogsData.filter(
+              (blog: any) => blog && blog.title && blog.title.trim() !== ""
+            );
+            setBlogs(validBlogs);
+          } else {
+            // console.warn("Blogs data is not an array:", blogsData);
+            setBlogs([]);
+          }
+        } else {
+          // console.warn("API response indicates failure:", response.data);
+          setBlogs([]);
         }
       } catch (error) {
-        console.error("Error fetching blogs:", error);
+        // console.error("Error fetching blogs:", error);
+        setError("Failed to load blog posts");
+        setBlogs([]);
       } finally {
         setLoading(false);
       }
@@ -37,14 +63,21 @@ const BlogSection: React.FC<BlogSectionProps> = ({
   }, [limit]);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    if (!dateString) return "No date";
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch (error) {
+      // console.error("Error formatting date:", error);
+      return "Invalid date";
+    }
   };
 
   const truncateText = (text: string, maxLength: number) => {
+    if (!text) return "No content available";
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength).trim() + "...";
   };
@@ -70,8 +103,67 @@ const BlogSection: React.FC<BlogSectionProps> = ({
     );
   }
 
+  // Show error state instead of returning null
+  if (error) {
+    return (
+      <section className="container mx-auto px-6 py-10 bg-gray-200">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-red-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Error Loading Blog Posts
+          </h3>
+          <p className="text-gray-500 mb-4">{error}</p>
+          <Button
+            variant="bordered"
+            size="sm"
+            onClick={() => window.location.reload()}
+            className="text-gray-600 border-gray-200 hover:bg-gray-50">
+            Try Again
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
+  // Show empty state instead of returning null
   if (blogs.length === 0) {
-    return null;
+    return (
+      <section className="container mx-auto px-6 py-10 bg-gray-200">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            No Blog Posts Available
+          </h3>
+          <p className="text-gray-500">Check back later for new articles</p>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -91,20 +183,17 @@ const BlogSection: React.FC<BlogSectionProps> = ({
         {blogs.map((blog) => (
           <article
             key={blog._id}
-            className="blog-article group bg-gray-100"
+            className="blog-article group bg-gray-100 cursor-pointer"
             onClick={() => (window.location.href = `/blog/${blog.slug}`)}>
             {/* Image Container */}
             <div className="blog-image-container mb-6 aspect-[4/3]">
               <Image
                 removeWrapper
-                alt={blog.title}
+                alt={blog.title || "Blog post"}
                 src={blog.featuredImage?.url || ""}
                 className="w-full h-full object-cover"
+                fallbackSrc="https://via.placeholder.com/400x300?text=No+Image"
               />
-              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-30 group-hover:opacity-100 transition-opacity duration-500 ease-out"></div> */}
-
-              {/* Floating overlay effect */}
-              {/* <div className="absolute inset-0 rounded-2xl ring-1 ring-black/5 group-hover:ring-black/10 transition-all duration-500 ease-out"></div> */}
             </div>
 
             {/* Content with subtle lift effect */}
@@ -118,7 +207,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
 
               {/* Title with smooth color transition */}
               <h3 className="blog-title text-lg md:text-xl font-medium text-gray-900 leading-tight line-clamp-2">
-                {blog.title}
+                {blog.title || "Untitled Article"}
               </h3>
 
               {/* Excerpt with fade effect */}

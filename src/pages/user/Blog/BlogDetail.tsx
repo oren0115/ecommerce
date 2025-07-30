@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Blog } from "../../../types";
 import { blogAPI } from "../../../api/api";
+import "../../../styles/BlogDetail.css";
 
 const BlogDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -19,22 +20,51 @@ const BlogDetail: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
+
+      // console.log("Fetching blog with slug:", slug);
       const response = await blogAPI.getBySlug(slug!);
-      setBlog(response.data as any);
+      // console.log("Blog detail API response:", response);
+
+      // Handle different response structures
+      let blogData: any = null;
+
+      if ((response.data as any)?.success) {
+        blogData = (response.data as any)?.data;
+      } else if (response.data) {
+        blogData = response.data;
+      }
+
+      // console.log("Parsed blog data:", blogData);
+
+      // Validate blog data
+      if (blogData && blogData._id && blogData.title && blogData.slug) {
+        setBlog(blogData);
+      } else {
+        // console.warn("Invalid blog data:", blogData);
+        setError("Blog post data is invalid or incomplete");
+        setBlog(null);
+      }
     } catch (err: any) {
-      console.error("Error fetching blog:", err);
+      // console.error("Error fetching blog:", err);
       setError(err.response?.data?.message || "Failed to fetch blog post");
+      setBlog(null);
     } finally {
       setLoading(false);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    if (!dateString) return "No date";
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch (error) {
+      // console.error("Error formatting date:", error);
+      return "Invalid date";
+    }
   };
 
   if (loading) {
@@ -74,23 +104,32 @@ const BlogDetail: React.FC = () => {
             <p className="text-gray-500 mb-8">
               {error || "The article you are looking for does not exist."}
             </p>
-            <Link
-              to="/blog"
-              className="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-              Back to Blog
-            </Link>
+            <div className="space-y-4">
+              <Link
+                to="/blog"
+                className="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                  />
+                </svg>
+                Back to Blog
+              </Link>
+              {error && (
+                <button
+                  onClick={() => fetchBlog()}
+                  className="block mx-auto mt-4 text-gray-600 hover:text-gray-800 underline">
+                  Try again
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -158,13 +197,17 @@ const BlogDetail: React.FC = () => {
               {blog.author.avatar && (
                 <img
                   src={blog.author.avatar}
-                  alt={blog.author.fullname}
+                  alt={blog.author.fullname || "Author"}
                   className="w-12 h-12 rounded-full mr-4"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = "none";
+                  }}
                 />
               )}
               <div>
                 <p className="font-medium text-gray-900">
-                  {blog.author.fullname}
+                  {blog.author.fullname || "Unknown Author"}
                 </p>
                 {blog.author.email && (
                   <p className="text-sm text-gray-500">{blog.author.email}</p>
@@ -180,8 +223,13 @@ const BlogDetail: React.FC = () => {
             <div className="relative overflow-hidden rounded-lg">
               <img
                 src={blog.featuredImage.url}
-                alt={blog.title}
+                alt={blog.title || "Blog post"}
                 className="w-full h-80 md:h-96 object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src =
+                    "https://via.placeholder.com/800x400?text=No+Image";
+                }}
               />
             </div>
           </div>
