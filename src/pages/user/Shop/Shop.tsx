@@ -87,8 +87,8 @@ function Shop() {
           (productsResponse.value.data as any)?.data?.items || [];
         const totalCount =
           (productsResponse.value.data as any)?.data?.pagination?.total || 0;
-        const paginationData = (productsResponse.value.data as any)?.data
-          ?.pagination;
+        // const paginationData = (productsResponse.value.data as any)?.data
+        //   ?.pagination;
 
         // Add cache busting to product images
         const productsWithCacheBusting =
