@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { productAPI } from "@/api/api";
 import { Product } from "@/types";
 import { addCacheBustingToProducts } from "../../../utils";
-import BestSellingSection from "@/components/user/Products/BestSellingSection";
+import BestSellingSection from "@/components/user/Home/BestSellingSection";
 import { BlogSection } from "@/components/user/Blog";
 import {
   HeroSection,

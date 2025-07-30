@@ -209,9 +209,11 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
       <div className="text-center mt-6">
         <Button
           variant="bordered"
-          className="border-black text-black hover:bg-black hover:text-white transition-colors duration-200"
+          className="border-2 border-black text-black hover:bg-black hover:text-white transition-all duration-300 px-10 py-4 text-sm font-medium group"
           onClick={() => onViewDetail && onViewDetail("shop")}>
-          Lihat Semua Produk
+          <span className="group-hover:mr-2 transition-all duration-300">
+            View All Products
+          </span>
         </Button>
       </div>
     </div>

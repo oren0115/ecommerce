@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 const BrandSide = () => (
   <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center">
     <div
-      className="absolute inset-0 z-0 bg-cover bg-center blur-xs"
+      className="absolute inset-0 z-0 bg-cover bg-center "
       style={{ backgroundImage: "url('/images/logo.auth.jpg')" }}
     />
   </div>

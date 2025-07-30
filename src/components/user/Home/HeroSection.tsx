@@ -3,22 +3,22 @@ import { Button } from "@heroui/react";
 
 const HeroSection: React.FC = () => {
   return (
-    <div className="bg-gray-200">
-      <div className="container mx-auto ">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+    <div className="bg-gray-200 py-16">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Side - Image */}
           <div className="relative">
-            <div className="aspect-[3/4] bg-amber-50 overflow-hidden">
+            <div className="aspect-[4/5] md:aspect-[3/4] overflow-hidden rounded-lg shadow-lg">
               <img
                 src="/images/home/hero-section.jpg"
                 alt="Classic Winter Collection Models"
-                className="w-400 h-400 object-cover "
+                className="w-full h-full object-cover object-center"
               />
             </div>
           </div>
 
           {/* Right Side - Content */}
-          <div className="space-y-10">
+          <div className="space-y-6 lg:space-y-10">
             <div>
               <h1 className="text-3xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight tracking-wide">
                 OUR BEST
@@ -40,7 +40,7 @@ const HeroSection: React.FC = () => {
             <div>
               <Button
                 size="lg"
-                className="bg-black text-white hover:bg-gray-800 px-10 py-4 text-sm lg:text-lg font-medium tracking-wide"
+                className="bg-black text-white hover:bg-gray-800 px-8 lg:px-10 py-3 lg:py-4 text-sm lg:text-lg font-medium tracking-wide"
                 onClick={() => (window.location.href = "/shop")}>
                 SHOP COLLECTION
               </Button>
