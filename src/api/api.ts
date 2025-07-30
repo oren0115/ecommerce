@@ -14,7 +14,7 @@ const api = axios.create({
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     const token = localStorage.getItem("token");
     config.headers = config.headers || {};
     if (token) {
@@ -22,15 +22,15 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
+  (error: any) => {
     return Promise.reject(error);
   }
 );
 
 // Response interceptor to handle auth errors
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: any) => response,
+  (error: any) => {
     // Handle request aborted errors
     if (error.code === "ECONNABORTED") {
       console.warn("Request was aborted:", error.config?.url);

@@ -47,7 +47,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
     setLoading(true);
     reviewAPI
       .getByProduct(productId)
-      .then((res) => {
+      .then((res: any) => {
         setReviews((res.data as any).data || []);
       })
       .catch(() => setReviews([]))
@@ -63,7 +63,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
     setEligibilityLoading(true);
     reviewAPI
       .checkEligibility(productId)
-      .then((res) => setEligibility((res.data as any).data))
+      .then((res: any) => setEligibility((res.data as any).data))
       .catch(() =>
         setEligibility({
           canReview: false,
@@ -88,7 +88,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
         comment: newComment,
       });
       // Refetch reviews setelah submit
-      const res = await reviewAPI.getByProduct(productId);
+      const res: any = await reviewAPI.getByProduct(productId);
       setReviews((res.data as any).data || []);
       setNewRating(5);
       setNewComment("");

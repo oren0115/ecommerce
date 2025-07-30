@@ -60,7 +60,7 @@ const ReportManagement: React.FC = () => {
 
         setReportData((prev) => {
           const newData = { ...prev };
-          results.forEach((result, index) => {
+          results.forEach((result: any, index: any) => {
             const data = (result.data as any)?.data;
             if (data) {
               if (index === 0 && !newData.overview) newData.overview = data;
