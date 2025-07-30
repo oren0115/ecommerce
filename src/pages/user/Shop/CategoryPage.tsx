@@ -39,7 +39,6 @@ function CategoryPage() {
         ...(selectedCategory && { category: selectedCategory }),
       };
 
-
       // Fetch categories and products in parallel for better performance
       const [categoriesResponse, productsResponse] = await Promise.allSettled([
         categoryAPI.getAll(),
@@ -75,10 +74,6 @@ function CategoryPage() {
           (productsResponse.value.data as any)?.data?.items || [];
         const totalCount =
           (productsResponse.value.data as any)?.data?.pagination?.total || 0;
-        const paginationData = (productsResponse.value.data as any)?.data
-          ?.pagination;
-
-
 
         // Add cache busting to product images
         const productsWithCacheBusting =

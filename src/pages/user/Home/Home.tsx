@@ -26,7 +26,6 @@ function Home() {
           // Add cache busting to product images
           const productsWithCacheBusting = addCacheBustingToProducts(products);
 
-
           setLatestProducts(productsWithCacheBusting);
         } else {
           console.error("API response not successful:", response.data);
@@ -79,7 +78,7 @@ function Home() {
     };
   }, []);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = () => {
     // TODO: Implement add to cart functionality
   };
 
@@ -95,7 +94,7 @@ function Home() {
     }
   };
 
-  const handlePromotionalClick = (slide: any) => {
+  const handlePromotionalClick = () => {
     // Navigate to shop or specific category based on slide
     window.location.href = "/shop";
   };

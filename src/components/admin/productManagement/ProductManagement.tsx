@@ -102,12 +102,9 @@ const ProductManagement: React.FC = () => {
 
     const attemptSave = async (): Promise<void> => {
       try {
-
-
         // Check backend health first
         try {
           await healthCheck();
-
         } catch (healthError) {
           console.error("Backend health check failed:", healthError);
           throw new Error(
@@ -116,10 +113,7 @@ const ProductManagement: React.FC = () => {
         }
 
         if (editingProduct) {
-          const response = await productAPI.update(
-            editingProduct._id,
-            productData as any
-          );
+          await productAPI.update(editingProduct._id, productData as any);
 
           // Broadcast product update event to user pages
           window.dispatchEvent(
@@ -138,7 +132,7 @@ const ProductManagement: React.FC = () => {
             });
           }
         } else {
-          const response = await productAPI.create(productData as any);
+          await productAPI.create(productData as any);
         }
 
         setShowForm(false);
