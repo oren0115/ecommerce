@@ -35,6 +35,7 @@ import UserManagement from "./components/admin/userManagement/userManagement";
 import ReportManagement from "./components/admin/reportManagement/ReportManagement";
 import Settings from "./components/admin/settings/Settings";
 import PromotionalCarouselManagement from "./pages/admin/PromotionalCarouselManagement";
+import ProfilePage from "./pages/admin/Profile/index";
 
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
@@ -149,6 +150,7 @@ function App() {
         <Route element={<UserManagement />} path="/admin/users" />
         <Route element={<ReportManagement />} path="/admin/reports" />
         <Route element={<Settings />} path="/admin/settings" />
+        <Route element={<ProfilePage />} path="/admin/profile" />
         <Route
           element={<PromotionalCarouselManagement />}
           path="/admin/promotional-carousel"

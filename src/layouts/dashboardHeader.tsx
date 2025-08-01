@@ -8,14 +8,34 @@ import {
   DropdownItem,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { useAuth } from "../contexts/AuthContext";
 
 function DashboardHeader() {
   const { dashboardHeader } = siteConfig;
+  const { user, logout } = useAuth();
 
-  // Create dropdown items array
+  // Get user initials for avatar
+  const getUserInitials = () => {
+    if (!user?.fullname) return "U";
+    return user.fullname
+      .split(" ")
+      .map((name) => name.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    // Redirect to login page after logout
+    window.location.href = "/auth/login";
+  };
+
+  // Create dropdown items array with logout functionality
   const dropdownItems = [
     ...dashboardHeader
-      .filter((item) => item.href && item.label)
+      .filter((item) => item.href && item.label && item.label !== "Logout")
       .map((item) => (
         <DropdownItem
           key={item.href}
@@ -24,7 +44,9 @@ function DashboardHeader() {
           textValue={item.label}>
           <div className="flex items-center space-x-2">
             <Icon
-              icon={item.label === "Profile" ? "lucide:user" : "lucide:log-out"}
+              icon={
+                item.label === "Profile" ? "lucide:user" : "lucide:settings"
+              }
               width="14"
               height="14"
             />
@@ -32,6 +54,17 @@ function DashboardHeader() {
           </div>
         </DropdownItem>
       )),
+    // Add logout item
+    <DropdownItem
+      key="logout"
+      onClick={handleLogout}
+      textValue="Logout"
+      className="text-red-600">
+      <div className="flex items-center space-x-2">
+        <Icon icon="lucide:log-out" width="14" height="14" />
+        <span className="text-sm">Logout</span>
+      </div>
+    </DropdownItem>,
   ];
 
   return (
@@ -50,13 +83,17 @@ function DashboardHeader() {
             <DropdownTrigger>
               <button className="flex items-center space-x-2 px-2 py-1.5 hover:bg-gray-50 rounded transition-colors">
                 <Avatar
-                  name="A"
+                  name={getUserInitials()}
                   size="sm"
                   className="bg-gray-900 text-white text-xs w-7 h-7"
                 />
                 <div className="hidden md:block text-left">
-                  <p className="text-sm font-medium text-gray-900">Admin</p>
-                  <p className="text-xs text-gray-500">admin@example.com</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    {user?.fullname || "User"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {user?.email || "user@example.com"}
+                  </p>
                 </div>
                 <Icon
                   icon="lucide:chevron-down"
