@@ -2,7 +2,7 @@ import axios from "axios";
 
 // API base URL
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://api-be-marketplace.onrender.com";
+  import.meta.env.VITE_API_URL || "";
 // import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // Create axios instance
