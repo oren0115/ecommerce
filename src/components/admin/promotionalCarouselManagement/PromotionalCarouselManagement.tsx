@@ -168,64 +168,58 @@ const PromotionalCarouselManagement: React.FC = () => {
 
   // Main management page
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Promotional Carousel Management
-          </h1>
-          <p className="text-gray-600">
-            Manage promotional slides for the homepage carousel
-          </p>
+    <div className="p-4">
+      {/* Header */}
+      <div className="mb-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Promotional Carousel Management
+            </h1>
+            <p className="text-gray-600 text-sm">
+              Manage promotional slides for the homepage carousel
+            </p>
+          </div>
+          <button
+            onClick={handleAddSlide}
+            className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
+            Add New Slide
+          </button>
         </div>
+      </div>
 
-        {/* Stats */}
+      {/* Error Display */}
+      {error && (
+        <div className="mb-6 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+          {error}
+        </div>
+      )}
+
+      {/* Stats */}
+      <div className="mb-8">
         <PromotionalCarouselStats slides={slides} />
+      </div>
 
-        {/* Search and Filters */}
+      {/* Search and Filters */}
+      <div className="mb-8">
         <PromotionalCarouselSearch
           onSearch={handleSearch}
           onStatusFilter={handleStatusFilter}
           selectedStatus={selectedStatus}
           onQuickAction={handleQuickAction}
         />
-
-        {/* Error Display */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-800">{error}</p>
-          </div>
-        )}
-
-        {/* Main Content */}
-        <div className="bg-white rounded-lg shadow">
-          {/* Action Bar */}
-          <div className="p-6 border-b border-gray-200">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-900">
-                Promotional Slides
-              </h2>
-              <button
-                onClick={handleAddSlide}
-                className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
-                Add New Slide
-              </button>
-            </div>
-          </div>
-
-          {/* Slides List */}
-          <PromotionalCarouselList
-            slides={slides}
-            loading={loading}
-            onEdit={handleEditSlide}
-            onDelete={handleDeleteSlide}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        </div>
       </div>
+
+      {/* Slides List */}
+      <PromotionalCarouselList
+        slides={slides}
+        loading={loading}
+        onEdit={handleEditSlide}
+        onDelete={handleDeleteSlide}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

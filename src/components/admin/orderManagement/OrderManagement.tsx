@@ -93,7 +93,7 @@ const OrderManagement: React.FC<OrderManagementProps> = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4">
       {/* Header */}
       <OrderHeader onExport={handleExportOrders} />
 
@@ -103,18 +103,20 @@ const OrderManagement: React.FC<OrderManagementProps> = () => {
           color="danger"
           variant="flat"
           onClose={() => setError(null)}
-          className="mb-4">
+          className="mb-6">
           {error}
         </Alert>
       )}
 
       {/* Filters */}
-      <OrderFilters
-        searchTerm={searchTerm}
-        statusFilter={statusFilter}
-        onSearchChange={setSearchTerm}
-        onStatusChange={setStatusFilter}
-      />
+      <div className="mb-8">
+        <OrderFilters
+          searchTerm={searchTerm}
+          statusFilter={statusFilter}
+          onSearchChange={setSearchTerm}
+          onStatusChange={setStatusFilter}
+        />
+      </div>
 
       {/* Orders Table */}
       <OrderTable

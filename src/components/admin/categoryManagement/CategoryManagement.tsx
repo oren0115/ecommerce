@@ -126,93 +126,87 @@ const CategoryManagement: React.FC = () => {
 
   if (loading && categories.length === 0) {
     return (
-      <div className="min-h-screen bg-default-50">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="mb-10">
-            <h1 className="text-2xl font-semibold text-foreground mb-2">
-              Categories
-            </h1>
-            <p className="text-default-500 text-sm">
-              Organize your products with categories
-            </p>
-          </div>
-          <div className="flex items-center justify-center min-h-96">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-default-200 border-t-primary"></div>
-          </div>
+      <div>
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Categories</h1>
+          <p className="text-gray-600 text-sm">
+            Organize your products with categories
+          </p>
+        </div>
+        <div className="flex items-center justify-center min-h-96">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-gray-600"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-default-50">
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-foreground mb-2">
-                Categories
-              </h1>
-              <p className="text-default-500 text-sm">
-                Organize your products with categories and subcategories
-              </p>
-            </div>
-            <Button
-              onClick={handleAddCategory}
-              color="primary"
-              className="bg-gray-900 text-white"
-              startContent={<Icon icon="lucide:plus" className="w-4 h-4" />}>
-              Add Category
-            </Button>
+    <div className="p-4">
+      {/* Header */}
+      <div className="mb-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Categories
+            </h1>
+            <p className="text-gray-600 text-sm">
+              Organize your products with categories and subcategories
+            </p>
           </div>
+          <Button
+            onClick={handleAddCategory}
+            color="primary"
+            className="bg-gray-900 text-white hover:bg-gray-800"
+            startContent={<Icon icon="lucide:plus" className="w-4 h-4" />}>
+            Add Category
+          </Button>
         </div>
-
-        {/* Error Display */}
-        {error && (
-          <Card className="mb-6 bg-danger-50 border-danger-200">
-            <CardBody className="text-danger-600 text-sm">{error}</CardBody>
-          </Card>
-        )}
-
-        {/* Category Statistics */}
-        <div className="mb-8">
-          <CategoryStats
-            categories={categories}
-            totalCategories={totalCategories}
-            onQuickAction={handleQuickAction}
-          />
-        </div>
-
-        {/* Search */}
-        <div className="mb-8">
-          <CategorySearch searchTerm={searchTerm} onSearch={handleSearch} />
-        </div>
-
-        {/* Category Form Modal */}
-        {showForm && (
-          <CategoryForm
-            category={editingCategory}
-            onSubmit={handleFormSubmit}
-            onCancel={handleFormCancel}
-          />
-        )}
-
-        {/* Category List */}
-        <Card>
-          <CardBody className="p-0">
-            <CategoryList
-              categories={categories}
-              onEdit={handleEditCategory}
-              onDelete={handleDeleteCategory}
-              loading={loading}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </CardBody>
-        </Card>
       </div>
+
+      {/* Error Display */}
+      {error && (
+        <Card className="mb-6 bg-red-50 border-red-200">
+          <CardBody className="text-red-600 text-sm">{error}</CardBody>
+        </Card>
+      )}
+
+      {/* Category Statistics */}
+      <div className="mb-8">
+        <CategoryStats
+          categories={categories}
+          totalCategories={totalCategories}
+          onQuickAction={handleQuickAction}
+        />
+      </div>
+
+      {/* Search */}
+      <div className="mb-8">
+        <CategorySearch searchTerm={searchTerm} onSearch={handleSearch} />
+      </div>
+
+      {/* Category Form Modal */}
+      {showForm && (
+        <CategoryForm
+          category={editingCategory}
+          onSubmit={handleFormSubmit}
+          onCancel={handleFormCancel}
+        />
+      )}
+
+      {/* Category List */}
+      <Card>
+        <CardBody className="p-0">
+          <CategoryList
+            categories={categories}
+            onEdit={handleEditCategory}
+            onDelete={handleDeleteCategory}
+            loading={loading}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </CardBody>
+      </Card>
     </div>
   );
 };

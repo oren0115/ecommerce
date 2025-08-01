@@ -35,7 +35,7 @@ function DashboardHeader() {
   ];
 
   return (
-    <header className="border-b border-gray-100 px-6 py-3">
+    <header className="px-6 py-3 bg-white border-b border-gray-200">
       <div className="flex items-center justify-end">
         {/* Right side - User actions */}
         <div className="flex items-center space-x-3">

@@ -157,7 +157,7 @@ function CategoriesSection({ onViewDetail }: CategoriesSectionProps) {
               size="sm"
               onClick={prevSlide}
               disabled={totalSlides <= 1}
-              className="hover:bg-gray-100 transition-colors duration-200">
+              className="hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
               <Icon icon="heroicons:chevron-left" className="w-4 h-4" />
             </Button>
             <Button
@@ -219,7 +219,7 @@ function CategoriesSection({ onViewDetail }: CategoriesSectionProps) {
                           onMouseEnter={() => setHoveredCategory(category._id)}
                           onMouseLeave={() => setHoveredCategory(null)}
                           className={`
-                            group relative flex flex-col items-center justify-center
+                            group relative flex flex-col items-center justify-center cursor-pointer
                             w-full aspect-square
                             bg-white rounded-lg shadow-sm border border-gray-200
                             transform transition-all duration-300 ease-out

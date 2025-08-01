@@ -30,7 +30,7 @@ function LatestProductsSection({
   }
 
   return (
-    <div className="bg-gray-50/30 py-16">
+    <div className="bg-gray-50/30 py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-light text-gray-900 mb-4">

@@ -9,7 +9,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
   color = "gray",
   trend,
 }) => (
-  <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-sm transition-shadow duration-200">
+  <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-lg hover:shadow-default-200/50 transition-all duration-200 hover:-translate-y-0.5">
     <div className="flex items-start justify-between">
       <div className="flex-1">
         <p className="text-sm text-gray-500 mb-1">{title}</p>

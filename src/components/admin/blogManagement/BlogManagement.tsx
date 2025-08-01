@@ -154,95 +154,91 @@ const BlogManagement: React.FC = () => {
 
   if (loading && blogs.length === 0) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="mb-10">
-            <h1 className="text-2xl font-semibold text-slate-900 mb-2">
-              Blog Management
-            </h1>
-            <p className="text-slate-500 text-sm">Manage your blog content</p>
-          </div>
-          <div className="flex items-center justify-center min-h-96">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-slate-600"></div>
-          </div>
+      <div className="p-4">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Blog Management
+          </h1>
+          <p className="text-gray-600 text-sm">Manage your blog content</p>
+        </div>
+        <div className="flex items-center justify-center min-h-96">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-gray-600"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900 mb-2">
-                Blog Management
-              </h1>
-              <p className="text-slate-500 text-sm">Manage your blog content</p>
-            </div>
-            <button
-              onClick={handleAddBlog}
-              className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              Add Blog Post
-            </button>
+    <div className="p-4">
+      {/* Header */}
+      <div className="mb-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Blog Management
+            </h1>
+            <p className="text-gray-600 text-sm">Manage your blog content</p>
           </div>
+          <button
+            onClick={handleAddBlog}
+            className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2">
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Add Blog Post
+          </button>
         </div>
-
-        {/* Error Display */}
-        {error && (
-          <div className="mb-6 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg text-sm">
-            {error}
-          </div>
-        )}
-
-        {/* Stats */}
-        <BlogStats />
-
-        {/* Search and Filters */}
-        <BlogSearch
-          searchTerm={searchTerm}
-          selectedStatus={selectedStatus}
-          selectedCategory={selectedCategory}
-          onSearch={handleSearch}
-          onStatusFilter={handleStatusFilter}
-          onCategoryFilter={handleCategoryFilter}
-          onQuickAction={handleQuickAction}
-        />
-
-        {/* Blog List */}
-        <BlogList
-          blogs={blogs}
-          loading={loading}
-          onEdit={handleEditBlog}
-          onDelete={handleDeleteBlog}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-
-        {/* Blog Form Modal */}
-        {showForm && (
-          <BlogForm
-            blog={editingBlog}
-            onSubmit={handleFormSubmit}
-            onCancel={handleFormCancel}
-          />
-        )}
       </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className="mb-6 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg text-sm">
+          {error}
+        </div>
+      )}
+
+      {/* Stats */}
+      <BlogStats />
+
+      {/* Search and Filters */}
+      <BlogSearch
+        searchTerm={searchTerm}
+        selectedStatus={selectedStatus}
+        selectedCategory={selectedCategory}
+        onSearch={handleSearch}
+        onStatusFilter={handleStatusFilter}
+        onCategoryFilter={handleCategoryFilter}
+        onQuickAction={handleQuickAction}
+      />
+
+      {/* Blog List */}
+      <BlogList
+        blogs={blogs}
+        loading={loading}
+        onEdit={handleEditBlog}
+        onDelete={handleDeleteBlog}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+
+      {/* Blog Form Modal */}
+      {showForm && (
+        <BlogForm
+          blog={editingBlog}
+          onSubmit={handleFormSubmit}
+          onCancel={handleFormCancel}
+        />
+      )}
     </div>
   );
 };

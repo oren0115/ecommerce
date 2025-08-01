@@ -29,6 +29,7 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({ isOpen, onClose }) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItemType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAddingAllToCart, setIsAddingAllToCart] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -80,8 +81,17 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleAddToCart = (product: any) => {
-    addToCart(product, 1);
+  const handleAddToCart = async (product: any) => {
+    try {
+      // console.log("Adding product to cart:", product);
+      await addToCart(product, 1);
+      // console.log("Successfully added product to cart");
+      // Optionally show success message or update UI
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // Optionally show error message
+      throw error; // Re-throw to be handled by the calling component
+    }
   };
 
   const formatPrice = (price: number) => {
@@ -97,12 +107,25 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({ isOpen, onClose }) => {
   }, 0);
 
   const handleAddAllToCart = async () => {
-    // Add all items to cart
-    wishlistItems.forEach((item) => handleAddToCart(item.productId));
+    if (isAddingAllToCart) return; // Prevent multiple clicks
 
-    // Remove all items from wishlist
-    for (const item of wishlistItems) {
-      await handleRemoveFromWishlist(item._id);
+    try {
+      setIsAddingAllToCart(true);
+
+      // Add all items to cart
+      for (const item of wishlistItems) {
+        await handleAddToCart(item.productId);
+      }
+
+      // Remove all items from wishlist
+      for (const item of wishlistItems) {
+        await handleRemoveFromWishlist(item._id);
+      }
+    } catch (error) {
+      console.error("Error adding all items to cart:", error);
+      // Optionally show error message
+    } finally {
+      setIsAddingAllToCart(false);
     }
   };
 
@@ -220,11 +243,15 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({ isOpen, onClose }) => {
             <Button
               color="primary"
               startContent={
-                <Icon icon="mdi:shopping-cart" className="h-4 w-4" />
+                !isAddingAllToCart && (
+                  <Icon icon="mdi:shopping-cart" className="h-4 w-4" />
+                )
               }
-              onPress={handleAddAllToCart}
+              onPress={() => handleAddAllToCart()}
+              isLoading={isAddingAllToCart}
+              isDisabled={isAddingAllToCart}
               className="w-full bg-gray-900 text-white">
-              Add All to Cart
+              {isAddingAllToCart ? "Menambahkan..." : "Add All to Cart"}
             </Button>
           </DrawerFooter>
         )}

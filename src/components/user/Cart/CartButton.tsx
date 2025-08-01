@@ -74,7 +74,7 @@ const CartButton: React.FC<CartButtonProps> = ({ onClick }) => {
       </Button>
 
       {isAuthenticated && cart.totalItems > 0 && (
-        <div className="cart-badge">
+        <div className="cart-badge absolute -top-1 -right-1 bg-gray-900 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
           {cart.totalItems > 99 ? "99+" : cart.totalItems}
         </div>
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Image } from "@heroui/react";
 import { WishlistItem as WishlistItemType, Product } from "../../../types";
 import { Icon } from "@iconify/react";
@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 interface WishlistDrawerItemProps {
   wishlistItem: WishlistItemType;
   onRemove: (wishlistId: string) => void;
-  onAddToCart: (product: Product) => void;
+  onAddToCart: (product: Product) => Promise<void>;
 }
 
 const WishlistDrawerItem: React.FC<WishlistDrawerItemProps> = ({
@@ -20,8 +20,21 @@ const WishlistDrawerItem: React.FC<WishlistDrawerItemProps> = ({
     onRemove(wishlistItem._id);
   };
 
-  const handleAddToCart = () => {
-    onAddToCart(product);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const handleAddToCart = async () => {
+    if (isAddingToCart) return; // Prevent multiple clicks
+
+    try {
+      setIsAddingToCart(true);
+      await onAddToCart(product);
+      // Success feedback could be added here
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // Error feedback could be added here
+    } finally {
+      setIsAddingToCart(false);
+    }
   };
 
   const formatPrice = (price: number) => {
@@ -83,11 +96,16 @@ const WishlistDrawerItem: React.FC<WishlistDrawerItemProps> = ({
             color="primary"
             variant="flat"
             size="sm"
-            onPress={handleAddToCart}
-            isDisabled={product.stock === 0}
+            onPress={() => handleAddToCart()}
+            isDisabled={product.stock === 0 || isAddingToCart}
+            isLoading={isAddingToCart}
             className="h-8 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 border-0 font-medium transition-colors"
-            startContent={<Icon icon="mdi:plus" className="h-3.5 w-3.5" />}>
-            Keranjang
+            startContent={
+              !isAddingToCart && (
+                <Icon icon="mdi:plus" className="h-3.5 w-3.5" />
+              )
+            }>
+            {isAddingToCart ? "Menambahkan..." : "Keranjang"}
           </Button>
 
           <Button

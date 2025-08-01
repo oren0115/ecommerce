@@ -22,6 +22,7 @@ import PaymentStatus from "./pages/user/Shop/Payment/PaymentStatus";
 import Login from "./pages/auth/Login/Login";
 import Register from "./pages/auth/Register/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword/ResetPassword";
 import EmailActivation from "./pages/auth/EmailActivation/EmailActivation";
 
 // Admin Pages
@@ -114,6 +115,14 @@ function App() {
             </ProtectedRoute>
           }
           path="/auth/forgot-password"
+        />
+        <Route
+          element={
+            <ProtectedRoute requireAuth={false}>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+          path="/auth/reset-password"
         />
         <Route
           element={

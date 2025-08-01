@@ -217,103 +217,91 @@ const ProductManagement: React.FC = () => {
 
   if (loading && products.length === 0) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="mb-10">
-            <h1 className="text-2xl font-semibold text-slate-900 mb-2">
-              Products
-            </h1>
-            <p className="text-slate-500 text-sm">
-              Manage your product catalog
-            </p>
-          </div>
-          <div className="flex items-center justify-center min-h-96">
-            <Spinner size="lg" color="primary" />
-          </div>
+      <div>
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Products</h1>
+          <p className="text-gray-600 text-sm">Manage your product catalog</p>
+        </div>
+        <div className="flex items-center justify-center min-h-96">
+          <Spinner size="lg" color="primary" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="mb-10">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900 mb-2">
-                Products
-              </h1>
-              <p className="text-slate-500 text-sm">
-                Manage your product catalog
-              </p>
-            </div>
-            <Button
-              color="primary"
-              onClick={handleAddProduct}
-              className="bg-gray-900 text-white hover:bg-gray-900"
-              startContent={<Icon icon="ph:plus" className="w-4 h-4" />}>
-              Add Product
-            </Button>
+    <div className="p-4">
+      {/* Header */}
+      <div className="mb-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Products</h1>
+            <p className="text-gray-600 text-sm">Manage your product catalog</p>
           </div>
+          <Button
+            color="primary"
+            onClick={handleAddProduct}
+            className="bg-gray-900 text-white hover:bg-gray-800"
+            startContent={<Icon icon="ph:plus" className="w-4 h-4" />}>
+            Add Product
+          </Button>
         </div>
-
-        {/* Error Display */}
-        {error && (
-          <Alert
-            variant="flat"
-            color="danger"
-            className="mb-6"
-            onClose={() => setError(null)}>
-            {error}
-          </Alert>
-        )}
-
-        {/* Product Statistics */}
-        <div className="mb-8">
-          <ProductStats
-            products={products}
-            totalProducts={totalProducts}
-            onQuickAction={handleQuickAction}
-          />
-        </div>
-
-        {/* Search and Filters */}
-        <div className="mb-8">
-          <ProductSearch
-            searchTerm={searchTerm}
-            onSearch={handleSearch}
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryFilter={handleCategoryFilter}
-          />
-        </div>
-
-        {/* Product Form Modal */}
-        {showForm && (
-          <ProductForm
-            product={editingProduct}
-            categories={categories}
-            onSubmit={handleFormSubmit}
-            onCancel={handleFormCancel}
-          />
-        )}
-        {/* Product List */}
-        <Card className="border-slate-200">
-          <CardBody className="p-0">
-            <ProductList
-              products={products}
-              onEdit={handleEditProduct}
-              onDelete={handleDeleteProduct}
-              loading={loading}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </CardBody>
-        </Card>
       </div>
+
+      {/* Error Display */}
+      {error && (
+        <Alert
+          variant="flat"
+          color="danger"
+          className="mb-6"
+          onClose={() => setError(null)}>
+          {error}
+        </Alert>
+      )}
+
+      {/* Product Statistics */}
+      <div className="mb-8">
+        <ProductStats
+          products={products}
+          totalProducts={totalProducts}
+          onQuickAction={handleQuickAction}
+        />
+      </div>
+
+      {/* Search and Filters */}
+      <div className="mb-8">
+        <ProductSearch
+          searchTerm={searchTerm}
+          onSearch={handleSearch}
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryFilter={handleCategoryFilter}
+        />
+      </div>
+
+      {/* Product Form Modal */}
+      {showForm && (
+        <ProductForm
+          product={editingProduct}
+          categories={categories}
+          onSubmit={handleFormSubmit}
+          onCancel={handleFormCancel}
+        />
+      )}
+      {/* Product List */}
+      <Card className="border-slate-200">
+        <CardBody className="p-0">
+          <ProductList
+            products={products}
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteProduct}
+            loading={loading}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </CardBody>
+      </Card>
     </div>
   );
 };

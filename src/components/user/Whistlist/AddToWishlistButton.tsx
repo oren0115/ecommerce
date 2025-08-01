@@ -178,11 +178,11 @@ const AddToWishlistButton: React.FC<AddToWishlistButtonProps> = ({
     if (isInWishlist) {
       switch (variant) {
         case "outline":
-          return "border border-red-500 text-red-500 hover:bg-red-50";
+          return "border border-gray-900 text-gray-900 hover:bg-gray-50";
         case "ghost":
-          return "text-red-500 hover:bg-red-50";
+          return "text-gray-900 hover:bg-gray-50";
         default:
-          return "bg-red-500 text-white hover:bg-red-600";
+          return "bg-gray-900 text-white hover:bg-gray-800";
       }
     } else {
       switch (variant) {

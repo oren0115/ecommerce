@@ -9,7 +9,6 @@ import UsersTab from "./UsersTab";
 import ProductsTab from "./ProductsTab";
 import OrdersTab from "./OrdersTab";
 import LoadingSkeleton from "./LoadingSkeleton";
-// import "../../../styles/reportManagement.css";
 
 const ReportManagement: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>("overview");
@@ -112,9 +111,12 @@ const ReportManagement: React.FC = () => {
 
   if (error) {
     return (
-      <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-gray-900">Reports</h1>
+      <div className="p-4">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Reports</h1>
+          <p className="text-gray-600 text-sm">
+            View detailed analytics and insights
+          </p>
         </div>
         <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl">
           <div className="flex items-center">
@@ -127,42 +129,51 @@ const ReportManagement: React.FC = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="p-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Reports</h1>
+      <div className="mb-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Reports</h1>
+            <p className="text-gray-600 text-sm">
+              View detailed analytics and insights
+            </p>
+          </div>
 
-        {/* Period Selector */}
-        <div className="flex items-center space-x-3">
-          <span className="text-sm font-medium text-gray-600">Period</span>
-          <select
-            value={period}
-            onChange={(e) => setPeriod(Number(e.target.value))}
-            className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
-            {PERIODS.map((p) => (
-              <option key={p.value} value={p.value}>
-                {p.label}
-              </option>
-            ))}
-          </select>
+          {/* Period Selector */}
+          <div className="flex items-center space-x-3">
+            <span className="text-sm font-medium text-gray-600">Period</span>
+            <select
+              value={period}
+              onChange={(e) => setPeriod(Number(e.target.value))}
+              className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors">
+              {PERIODS.map((p) => (
+                <option key={p.value} value={p.value}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-1 bg-gray-50 rounded-2xl p-1">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => handleTabChange(tab.id)}
-            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 flex-1 ${
-              activeTab === tab.id
-                ? "bg-black text-white shadow-sm"
-                : "text-gray-500 hover:text-gray-700 hover:bg-gray-300"
-            }`}>
-            <Icon icon={tab.icon} className="w-4 h-4" />
-            <span className="hidden sm:inline">{tab.label}</span>
-          </button>
-        ))}
+      <div className="mb-8">
+        <div className="flex space-x-1 bg-gray-50 rounded-2xl p-1">
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => handleTabChange(tab.id)}
+              className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 flex-1 ${
+                activeTab === tab.id
+                  ? "bg-black text-white shadow-sm"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-300"
+              }`}>
+              <Icon icon={tab.icon} className="w-4 h-4" />
+              <span className="hidden sm:inline">{tab.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Content */}
