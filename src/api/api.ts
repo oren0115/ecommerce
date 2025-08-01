@@ -74,6 +74,12 @@ export const authAPI = {
   login: (data: { email: string; password: string }) =>
     api.post("/api/auth/login", data),
 
+  activateAccount: (token: string) =>
+    api.post("/api/auth/activate-account", { token }),
+
+  resendActivation: (email: string) =>
+    api.post("/api/auth/resend-activation", { email }),
+
   forgotPassword: (data: { email: string }) =>
     api.post("/api/auth/forgot-password", data),
 

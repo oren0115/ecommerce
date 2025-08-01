@@ -62,7 +62,11 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
-  register: (credentials: RegisterCredentials) => Promise<void>;
+  register: (
+    credentials: RegisterCredentials
+  ) => Promise<{ email: string; fullname: string }>;
+  activateAccount: (token: string) => Promise<void>;
+  resendActivation: (email: string) => Promise<void>;
   logout: () => void;
   updateProfile: (data: Partial<User>) => Promise<void>;
   updatePassword: (data: {

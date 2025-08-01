@@ -85,15 +85,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (credentials: RegisterCredentials) => {
     try {
       const response = await authAPI.register(credentials);
-      const { user, token } = (response.data as any)?.data;
+      const { user } = (response.data as any)?.data;
 
-      setUser(user);
-      setToken(token);
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      // Return user info for activation flow instead of auto-login
+      return {
+        email: user.email,
+        fullname: user.fullname,
+      };
     } catch (error: any) {
       const message =
         error.response?.data?.error?.detail?.message || "Registration failed";
+      throw new Error(message);
+    }
+  };
+
+  const activateAccount = async (token: string) => {
+    try {
+      const response = await authAPI.activateAccount(token);
+      const { user, token: authToken } = (response.data as any)?.data;
+
+      setUser(user);
+      setToken(authToken);
+      localStorage.setItem("token", authToken);
+      localStorage.setItem("user", JSON.stringify(user));
+    } catch (error: any) {
+      const message =
+        error.response?.data?.error?.detail?.message ||
+        "Account activation failed";
+      throw new Error(message);
+    }
+  };
+
+  const resendActivation = async (email: string) => {
+    try {
+      await authAPI.resendActivation(email);
+    } catch (error: any) {
+      const message =
+        error.response?.data?.error?.detail?.message ||
+        "Failed to resend activation email";
       throw new Error(message);
     }
   };
@@ -141,6 +170,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     login,
     register,
+    activateAccount,
+    resendActivation,
     logout,
     updateProfile,
     updatePassword,

@@ -6,10 +6,12 @@ import { useAuth } from "../../../contexts/AuthContext";
 function LoginComponent() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, resendActivation } = useAuth();
   const [remember, setRemember] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [error, setError] = useState("");
+  const [unactivatedEmail, setUnactivatedEmail] = useState("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,9 +27,37 @@ function LoginComponent() {
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.message);
+      // Check if it's an unactivated account error
+      if (
+        err.message.includes("not activated") ||
+        err.message.includes("activation")
+      ) {
+        setUnactivatedEmail(email);
+        setError(
+          "Account is not activated. Please check your email for activation link or request a new one."
+        );
+      } else {
+        setError(err.message);
+      }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleResendActivation = async () => {
+    if (!unactivatedEmail) return;
+
+    setIsResending(true);
+    setError("");
+
+    try {
+      await resendActivation(unactivatedEmail);
+      setError("Activation email sent successfully! Please check your inbox.");
+      setUnactivatedEmail("");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -57,7 +87,19 @@ function LoginComponent() {
         {/* Error Message */}
         {error && (
           <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm">
-            {error}
+            <div className="mb-2">{error}</div>
+            {unactivatedEmail && (
+              <div className="mt-3 pt-3 border-t border-red-200">
+                <Button
+                  onClick={handleResendActivation}
+                  isLoading={isResending}
+                  variant="light"
+                  size="sm"
+                  className="text-red-700 hover:text-red-800">
+                  {isResending ? "Sending..." : "Resend Activation Email"}
+                </Button>
+              </div>
+            )}
           </div>
         )}
         {/* Login Form */}

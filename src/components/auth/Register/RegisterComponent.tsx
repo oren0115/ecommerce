@@ -35,9 +35,12 @@ function RegisterComponent() {
     }
 
     try {
-      await register({ fullname, email, password });
-      const from = location.state?.from?.pathname || "/";
-      navigate(from, { replace: true });
+      const userData = await register({ fullname, email, password });
+      // Redirect to email activation page with user data
+      navigate("/auth/email-activation", {
+        state: { userData },
+        replace: true,
+      });
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -25,6 +25,7 @@ import {
   Alert,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import SafeImage from "../../common/SafeImage";
 
 interface ProductFormProps {
   product?: Product | null;
@@ -103,7 +104,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
       (file) => file && file instanceof File
     );
     if (validImageFiles.length !== imageFiles.length) {
-
       setImageFiles(validImageFiles);
     }
   }, [imageFiles]);
@@ -126,17 +126,21 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (!files.length) return;
+    if (files.length === 0) return;
 
-    // Filter out invalid files
-    const validFiles = files.filter(
-      (file) => file && file instanceof File && file.size > 0
-    );
-    if (!validFiles.length) {
-      console.error("No valid files found in selection");
+    // Validate file types
+    const validFiles = files.filter((file) => {
+      if (!file.type.startsWith("image/")) {
+        console.error("Invalid file type:", file.type);
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) {
+      console.error("No valid image files selected");
       return;
     }
-
 
     setImageFiles((p) => [...p, ...validFiles]);
 
@@ -146,10 +150,26 @@ const ProductForm: React.FC<ProductFormProps> = ({
     validFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (event) => {
-        const base64 = event.target?.result as string;
-        newPreviews.push(base64);
+        try {
+          const base64 = event.target?.result as string;
+          // Validate that the base64 string is properly formatted
+          if (base64 && base64.startsWith("data:image/")) {
+            newPreviews.push(base64);
+          } else {
+            console.error("Invalid base64 data for file:", file.name);
+          }
+        } catch (error) {
+          console.error("Error processing file:", file.name, error);
+        }
         processedCount++;
 
+        if (processedCount === validFiles.length) {
+          setPreviews((p) => [...p, ...newPreviews]);
+        }
+      };
+      reader.onerror = () => {
+        console.error("Error reading file:", file.name);
+        processedCount++;
         if (processedCount === validFiles.length) {
           setPreviews((p) => [...p, ...newPreviews]);
         }
@@ -272,7 +292,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
               url: imageUrl, // Don't add cache busting here - backend should store clean URLs
               order: uploadedImages.length,
             });
-
           }
         } catch (uploadError) {
           console.error("Failed to upload file:", file.name, uploadError);
@@ -287,7 +306,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
         ...formData,
         images: uploadedImages,
       };
-
 
       onSubmit(submitData);
     } catch (error) {
@@ -506,14 +524,19 @@ const ProductForm: React.FC<ProductFormProps> = ({
                       {previews.map((preview, index) => (
                         <Card key={index} className="relative group">
                           <CardBody className="p-2">
-                            <img
+                            <SafeImage
                               src={preview}
                               alt={`Preview ${index + 1}`}
                               className="w-full h-24 object-cover rounded-lg"
+                              fallbackSrc="https://via.placeholder.com/96x96?text=Error"
                               draggable
-                              onDragStart={(e) => handleDragStart(e, index)}
+                              onDragStart={(e: React.DragEvent) =>
+                                handleDragStart(e, index)
+                              }
                               onDragOver={handleDragOver}
-                              onDrop={(e) => handleDrop(e, index)}
+                              onDrop={(e: React.DragEvent) =>
+                                handleDrop(e, index)
+                              }
                             />
                             <Button
                               isIconOnly

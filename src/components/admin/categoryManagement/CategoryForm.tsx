@@ -12,6 +12,7 @@ import {
   Textarea,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import SafeImage from "../../common/SafeImage";
 
 interface CategoryFormProps {
   category?: Category | null;
@@ -223,10 +224,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                 {/* Image Preview */}
                 {imagePreview && (
                   <div className="relative inline-block">
-                    <img
+                    <SafeImage
                       src={imagePreview}
                       alt="Category preview"
                       className="w-32 h-32 object-cover rounded-lg border border-default-200"
+                      fallbackSrc="https://via.placeholder.com/128x128?text=Error"
                     />
                     <Button
                       isIconOnly
