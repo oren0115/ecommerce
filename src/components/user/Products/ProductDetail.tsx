@@ -52,11 +52,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
         <div className="space-y-4">
           {/* Main Image - Carousel on small screens, static on large screens */}
           <div className="relative">
-            <div className="w-full bg-default-300 rounded-lg overflow-hidden">
+            <div className="w-full aspect-square bg-white rounded-lg overflow-hidden">
               <Image
                 src={images[selectedImage] || ""}
                 alt={product.name}
-                className="w-full h-auto object-cover"
+                className="w-full h-full object-cover"
+                classNames={{
+                  wrapper: "w-full h-full",
+                  img: "w-full h-full object-cover",
+                }}
                 fallbackSrc="https://via.placeholder.com/400x400?text=No+Image"
               />
             </div>
@@ -139,7 +143,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                       image || "https://via.placeholder.com/80x80?text=No+Image"
                     }
                     alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-contain rounded"
+                    className="w-full h-full object-cover rounded"
+                    classNames={{
+                      wrapper: "w-full h-full",
+                      img: "w-full h-full object-cover",
+                    }}
                     fallbackSrc="https://via.placeholder.com/80x80?text=No+Image"
                   />
                 </Button>

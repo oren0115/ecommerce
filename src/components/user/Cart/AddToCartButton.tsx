@@ -127,7 +127,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     return (
       <Button
         disabled
-        className={`bg-green-600 text-white ${className}`}
+        className={`bg-gray-600 text-white ${className}`}
         startContent={<CheckIcon className="h-4 w-4" />}
         {...getButtonProps()}>
         Added to Cart
