@@ -4,7 +4,6 @@ import { Icon } from "@iconify/react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { orderAPI } from "@/api/api";
-// import "@/styles/checkout.css";
 
 interface ShippingForm {
   shippingAddress: string;
@@ -41,6 +40,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
     {
       value: "cod",
       label: "Cash on Delivery",
+      shortLabel: "COD",
       icon: "lucide:banknote",
       description: "Pay when you receive your order",
       color: "success",
@@ -49,6 +49,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
     {
       value: "bank_transfer",
       label: "Bank Transfer",
+      shortLabel: "Bank",
       icon: "lucide:building-2",
       description: "BCA, BNI, BRI, Mandiri Virtual Account",
       color: "primary",
@@ -56,6 +57,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
     {
       value: "credit_card",
       label: "Credit Card",
+      shortLabel: "Card",
       icon: "lucide:credit-card",
       description: "Visa, Mastercard, JCB, American Express",
       color: "secondary",
@@ -63,6 +65,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
     {
       value: "e_wallet",
       label: "E-Wallet",
+      shortLabel: "E-Wallet",
       icon: "lucide:smartphone",
       description: "GoPay, ShopeePay, OVO, DANA, LinkAja",
       color: "warning",
@@ -70,6 +73,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
     {
       value: "qris",
       label: "QRIS",
+      shortLabel: "QRIS",
       icon: "lucide:qr-code",
       description: "Universal QR code payment - scan with any payment app",
       color: "danger",
@@ -165,8 +169,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
         deliveryType: formData.deliveryType,
       };
 
-
-
       const response = await orderAPI.create(orderData as any);
 
       if ((response.data as any).success) {
@@ -233,308 +235,287 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
   };
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-xl font-medium text-gray-900 mb-2">
-          Complete Order
-        </h1>
-        <p className="text-gray-500 text-sm">
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile Header */}
+      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 sm:px-6">
+        <h1 className="text-lg font-semibold text-gray-900">Complete Order</h1>
+        <p className="text-sm text-gray-500 mt-1">
           Fill in your shipping and payment details
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="px-4 py-4 space-y-4 sm:px-6 sm:space-y-6 pb-32">
         {/* Main Form */}
-        <div>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Shipping Information */}
-            <div
-              className="group"
-              style={{ animation: "slideInUp 0.5s ease-out" }}>
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 transition-all duration-300 hover:shadow-lg hover:shadow-gray-100/50 hover:border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-blue-100">
-                    <Icon
-                      icon="lucide:map-pin"
-                      className="w-4 h-4 text-blue-600"
-                    />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900">
-                    Shipping Address
-                  </h3>
-                </div>
-
-                <div className="space-y-4">
-                  <Input
-                    label="Complete Address"
-                    placeholder="Street address, building, apartment"
-                    value={formData.shippingAddress}
-                    onChange={(e) =>
-                      handleInputChange("shippingAddress", e.target.value)
-                    }
-                    variant="bordered"
-                    classNames={{
-                      input: "text-gray-700",
-                      inputWrapper:
-                        "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200",
-                    }}
-                    required
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Input
-                      label="Township/District"
-                      placeholder="Township"
-                      value={formData.township}
-                      onChange={(e) =>
-                        handleInputChange("township", e.target.value)
-                      }
-                      variant="bordered"
-                      classNames={{
-                        input: "text-gray-700",
-                        inputWrapper:
-                          "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200",
-                      }}
-                    />
-                    <Input
-                      label="City"
-                      placeholder="City"
-                      value={formData.city}
-                      onChange={(e) =>
-                        handleInputChange("city", e.target.value)
-                      }
-                      variant="bordered"
-                      classNames={{
-                        input: "text-gray-700",
-                        inputWrapper:
-                          "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200",
-                      }}
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Input
-                      label="State/Province"
-                      placeholder="State"
-                      value={formData.state}
-                      onChange={(e) =>
-                        handleInputChange("state", e.target.value)
-                      }
-                      variant="bordered"
-                      classNames={{
-                        input: "text-gray-700",
-                        inputWrapper:
-                          "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200",
-                      }}
-                      required
-                    />
-                    <Input
-                      label="ZIP Code"
-                      placeholder="12345"
-                      value={formData.zipCode}
-                      onChange={(e) =>
-                        handleInputChange("zipCode", e.target.value)
-                      }
-                      variant="bordered"
-                      classNames={{
-                        input: "text-gray-700",
-                        inputWrapper:
-                          "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200",
-                      }}
-                      required
-                    />
-                  </div>
-                </div>
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          {/* Shipping Information */}
+          <div className="bg-white rounded-xl p-4 border border-gray-200 sm:p-6 sm:rounded-2xl">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center">
+                <Icon icon="lucide:map-pin" className="w-4 h-4 text-gray-600" />
               </div>
+              <h3 className="text-base font-medium text-gray-900 sm:text-lg">
+                Shipping Address
+              </h3>
             </div>
 
-            {/* Delivery Options */}
-            <div
-              className="group"
-              style={{ animation: "slideInUp 0.5s ease-out 0.1s both" }}>
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 transition-all duration-300 hover:shadow-lg hover:shadow-gray-100/50 hover:border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-green-100">
-                    <Icon
-                      icon="lucide:truck"
-                      className="w-4 h-4 text-green-600"
-                    />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900">
-                    Delivery Method
-                  </h3>
-                </div>
+            <div className="space-y-4 mb-4">
+              <Input
+                label="Complete Address"
+                placeholder="Street address, building, apartment"
+                value={formData.shippingAddress}
+                onChange={(e) =>
+                  handleInputChange("shippingAddress", e.target.value)
+                }
+                variant="bordered"
+                classNames={{
+                  input: "text-gray-700",
+                  inputWrapper:
+                    "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200 min-h-[48px]",
+                  label: "text-sm sm:text-base",
+                }}
+                required
+              />
 
-                <div className="space-y-3 mb-6">
-                  {deliveryTypes.map((delivery) => (
-                    <label
-                      key={delivery.value}
-                      className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:bg-gray-50 ${
-                        formData.deliveryType === delivery.value
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200"
-                      }`}>
-                      <input
-                        type="radio"
-                        name="deliveryType"
-                        value={delivery.value}
-                        checked={formData.deliveryType === delivery.value}
-                        onChange={(e) =>
-                          handleInputChange("deliveryType", e.target.value)
-                        }
-                        className="sr-only"
-                      />
-                      <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-200 ${
-                          formData.deliveryType === delivery.value
-                            ? "bg-blue-100"
-                            : "bg-gray-100"
-                        }`}>
-                        <Icon
-                          icon={delivery.icon}
-                          className={`w-5 h-5 transition-colors duration-200 ${
-                            formData.deliveryType === delivery.value
-                              ? "text-blue-600"
-                              : "text-gray-500"
-                          }`}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900">
-                          {delivery.label}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {delivery.subtitle}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium text-gray-900">
-                          {delivery.price > 0
-                            ? `Rp ${delivery.price.toLocaleString("id-ID")}`
-                            : "Free"}
-                        </div>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Input
-                  type="date"
-                  label="Preferred Delivery Date"
-                  value={formData.deliveryDate}
+                  label="Township/District"
+                  placeholder="Township"
+                  value={formData.township}
                   onChange={(e) =>
-                    handleInputChange("deliveryDate", e.target.value)
+                    handleInputChange("township", e.target.value)
                   }
-                  min={getMinDeliveryDate()}
-                  max={getMaxDeliveryDate()}
                   variant="bordered"
                   classNames={{
                     input: "text-gray-700",
                     inputWrapper:
-                      "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200",
+                      "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200 min-h-[48px]",
+                    label: "text-sm sm:text-base",
+                  }}
+                />
+                <Input
+                  label="City"
+                  placeholder="City"
+                  value={formData.city}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
+                  variant="bordered"
+                  classNames={{
+                    input: "text-gray-700",
+                    inputWrapper:
+                      "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200 min-h-[48px]",
+                    label: "text-sm sm:text-base",
+                  }}
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Input
+                  label="State/Province"
+                  placeholder="State"
+                  value={formData.state}
+                  onChange={(e) => handleInputChange("state", e.target.value)}
+                  variant="bordered"
+                  classNames={{
+                    input: "text-gray-700",
+                    inputWrapper:
+                      "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200 min-h-[48px]",
+                    label: "text-sm sm:text-base",
+                  }}
+                  required
+                />
+                <Input
+                  label="ZIP Code"
+                  placeholder="12345"
+                  value={formData.zipCode}
+                  onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                  variant="bordered"
+                  classNames={{
+                    input: "text-gray-700",
+                    inputWrapper:
+                      "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200 min-h-[48px]",
+                    label: "text-sm sm:text-base",
                   }}
                   required
                 />
               </div>
             </div>
+          </div>
 
-            {/* Payment Method */}
-            <div
-              className="group"
-              style={{ animation: "slideInUp 0.5s ease-out 0.2s both" }}>
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 transition-all duration-300 hover:shadow-lg hover:shadow-gray-100/50 hover:border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-purple-50 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-purple-100">
+          {/* Delivery Options */}
+          <div className="bg-white rounded-xl p-4 border border-gray-200 sm:p-6 sm:rounded-2xl">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center">
+                <Icon icon="lucide:truck" className="w-4 h-4 text-green-600" />
+              </div>
+              <h3 className="text-base font-medium text-gray-900 sm:text-lg">
+                Delivery Method
+              </h3>
+            </div>
+
+            <div className="space-y-3 mb-4 sm:mb-6">
+              {deliveryTypes.map((delivery) => (
+                <label
+                  key={delivery.value}
+                  className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 active:scale-[0.98] ${
+                    formData.deliveryType === delivery.value
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200"
+                  }`}>
+                  <input
+                    type="radio"
+                    name="deliveryType"
+                    value={delivery.value}
+                    checked={formData.deliveryType === delivery.value}
+                    onChange={(e) =>
+                      handleInputChange("deliveryType", e.target.value)
+                    }
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-200 ${
+                      formData.deliveryType === delivery.value
+                        ? "bg-blue-100"
+                        : "bg-gray-100"
+                    }`}>
                     <Icon
-                      icon="lucide:credit-card"
-                      className="w-4 h-4 text-purple-600"
+                      icon={delivery.icon}
+                      className={`w-5 h-5 transition-colors duration-200 ${
+                        formData.deliveryType === delivery.value
+                          ? "text-blue-600"
+                          : "text-gray-500"
+                      }`}
                     />
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900">
-                    Payment Method
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  {paymentMethods.map((method) => (
-                    <label
-                      key={method.value}
-                      className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:bg-gray-50 ${
-                        formData.paymentType === method.value
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200"
-                      }`}>
-                      <input
-                        type="radio"
-                        name="paymentType"
-                        value={method.value}
-                        checked={formData.paymentType === method.value}
-                        onChange={(e) =>
-                          handleInputChange("paymentType", e.target.value)
-                        }
-                        className="sr-only"
-                      />
-                      <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-200 ${
-                          formData.paymentType === method.value
-                            ? "bg-blue-100"
-                            : "bg-gray-100"
-                        }`}>
-                        <Icon
-                          icon={method.icon}
-                          className={`w-5 h-5 transition-colors duration-200 ${
-                            formData.paymentType === method.value
-                              ? "text-blue-600"
-                              : "text-gray-500"
-                          }`}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-gray-900">
-                            {method.label}
-                          </span>
-                          {method.popular && (
-                            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-                              Popular
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {method.description}
-                        </div>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-gray-900 text-sm sm:text-base">
+                      {delivery.label}
+                    </div>
+                    <div className="text-xs text-gray-500 sm:text-sm">
+                      {delivery.subtitle}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium text-gray-900 text-sm sm:text-base">
+                      {delivery.price > 0
+                        ? `Rp ${delivery.price.toLocaleString("id-ID")}`
+                        : "Free"}
+                    </div>
+                  </div>
+                </label>
+              ))}
             </div>
-          </form>
-        </div>
+
+            <Input
+              type="date"
+              label="Preferred Delivery Date"
+              value={formData.deliveryDate}
+              onChange={(e) =>
+                handleInputChange("deliveryDate", e.target.value)
+              }
+              min={getMinDeliveryDate()}
+              max={getMaxDeliveryDate()}
+              variant="bordered"
+              classNames={{
+                input: "text-gray-700",
+                inputWrapper:
+                  "border-gray-200 hover:border-gray-300 group-data-[focus=true]:border-blue-500 transition-colors duration-200 min-h-[48px]",
+                label: "text-sm sm:text-base",
+              }}
+              required
+            />
+          </div>
+
+          {/* Payment Method */}
+          <div className="bg-white rounded-xl p-4 border border-gray-200 sm:p-6 sm:rounded-2xl">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 bg-purple-50 rounded-full flex items-center justify-center">
+                <Icon
+                  icon="lucide:credit-card"
+                  className="w-4 h-4 text-purple-600"
+                />
+              </div>
+              <h3 className="text-base font-medium text-gray-900 sm:text-lg">
+                Payment Method
+              </h3>
+            </div>
+
+            <div className="space-y-3">
+              {paymentMethods.map((method) => (
+                <label
+                  key={method.value}
+                  className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 active:scale-[0.98] ${
+                    formData.paymentType === method.value
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200"
+                  }`}>
+                  <input
+                    type="radio"
+                    name="paymentType"
+                    value={method.value}
+                    checked={formData.paymentType === method.value}
+                    onChange={(e) =>
+                      handleInputChange("paymentType", e.target.value)
+                    }
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-200 ${
+                      formData.paymentType === method.value
+                        ? "bg-blue-100"
+                        : "bg-gray-100"
+                    }`}>
+                    <Icon
+                      icon={method.icon}
+                      className={`w-5 h-5 transition-colors duration-200 ${
+                        formData.paymentType === method.value
+                          ? "text-blue-600"
+                          : "text-gray-500"
+                      }`}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-gray-900 text-sm sm:text-base">
+                        <span className="sm:hidden">{method.shortLabel}</span>
+                        <span className="hidden sm:inline">{method.label}</span>
+                      </span>
+                      {method.popular && (
+                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+                          Popular
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-500 truncate sm:text-sm">
+                      {method.description}
+                    </div>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </div>
+        </form>
 
         {/* Order Summary */}
-        <div
-          className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm"
-          style={{ animation: "slideInUp 0.5s ease-out 0.3s both" }}>
-          <h3 className="text-lg font-medium text-gray-900 mb-6">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 sm:p-6 sm:rounded-2xl">
+          <h3 className="text-base font-medium text-gray-900 mb-4 sm:text-lg sm:mb-6">
             Order Summary
           </h3>
 
-          <div className="space-y-4 mb-6">
+          <div className="space-y-3 mb-4 sm:space-y-4 sm:mb-6">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">
+              <span className="text-gray-600 text-sm sm:text-base">
                 Subtotal ({cart.totalItems} items)
               </span>
-              <span className="font-medium">
+              <span className="font-medium text-sm sm:text-base">
                 Rp {cart.total.toLocaleString("id-ID")}
               </span>
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Delivery Fee</span>
-              <span className="font-medium">
+              <span className="text-gray-600 text-sm sm:text-base">
+                Delivery Fee
+              </span>
+              <span className="font-medium text-sm sm:text-base">
                 {calculateDeliveryFee() > 0
                   ? `Rp ${calculateDeliveryFee().toLocaleString("id-ID")}`
                   : "Free"}
@@ -543,56 +524,84 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
 
             <div className="h-px bg-gray-200"></div>
 
-            <div className="flex justify-between items-center text-lg">
-              <span className="font-medium text-gray-900">Total</span>
-              <span className="font-bold text-gray-900">
+            <div className="flex justify-between items-center">
+              <span className="font-medium text-gray-900 text-base sm:text-lg">
+                Total
+              </span>
+              <span className="font-bold text-gray-900 text-base sm:text-lg">
                 Rp {calculateTotal().toLocaleString("id-ID")}
               </span>
             </div>
           </div>
-
-          <Button
-            type="submit"
-            onClick={handleSubmit}
-            className="w-full bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-200"
-            size="lg"
-            isLoading={loading}
-            disabled={cart.items.length === 0}>
-            {loading
-              ? "Processing..."
-              : formData.paymentType === "cod"
-                ? "Place COD Order"
-                : "Proceed to Payment"}
-          </Button>
-
-          <p className="text-xs text-gray-500 text-center mt-3">
-            By placing your order, you agree to our Terms of Service
-          </p>
         </div>
       </div>
 
-      {/* Enhanced Animations */}
+      {/* Fixed Bottom Button */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:px-6">
+        <Button
+          type="submit"
+          onClick={handleSubmit}
+          className="w-full bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-200 min-h-[48px] text-base font-medium"
+          size="lg"
+          isLoading={loading}
+          disabled={cart.items.length === 0}>
+          {loading
+            ? "Processing..."
+            : formData.paymentType === "cod"
+              ? "Place COD Order"
+              : "Proceed to Payment"}
+        </Button>
+
+        <p className="text-xs text-gray-500 text-center mt-2 sm:text-sm">
+          By placing your order, you agree to our Terms of Service
+        </p>
+      </div>
+
+      {/* Enhanced Mobile Styles */}
       <style>{`
-        @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
+        /* Improved touch targets */
+        @media (max-width: 640px) {
+          input[type="radio"] + div {
+            min-width: 40px;
+            min-height: 40px;
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          
+          label {
+            min-height: 56px;
           }
-        }
-
-        /* Smooth transitions for form elements */
-        .group:hover {
-          transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Enhanced radio button animations */
-        input[type="radio"]:checked + div + div {
-          transform: scale(1.02);
-          transition: transform 0.2s ease-out;
+          
+          /* Better tap feedback */
+          .active\\:scale-\\[0\\.98\\]:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease-out;
+          }
+          
+          /* Ensure form inputs are properly sized */
+          input, textarea, select {
+            font-size: 16px; /* Prevents zoom on iOS */
+          }
+          
+          /* Better spacing for mobile */
+          .space-y-3 > * + * {
+            margin-top: 0.75rem;
+          }
+          
+          /* Smooth scrolling */
+          html {
+            scroll-behavior: smooth;
+          }
+          
+          /* Better visual feedback for interactive elements */
+          button:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease-out;
+          }
+          
+          /* Ensure proper viewport handling */
+          .min-h-screen {
+            min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height */
+          }
         }
 
         /* Loading state animations */
@@ -603,6 +612,17 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
         
         .animate-pulse {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Smooth transitions */
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+        
+        .transition-all {
+          transition-property: all;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 200ms;
         }
       `}</style>
     </div>
