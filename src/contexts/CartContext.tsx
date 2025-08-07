@@ -208,7 +208,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
             total: cartData.total || 0,
           };
 
-
           dispatch({
             type: "LOAD_CART",
             payload: formattedCart,

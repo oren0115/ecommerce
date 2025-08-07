@@ -96,6 +96,7 @@ export interface Size {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  stock: number;
 }
 
 export interface ProductSize {

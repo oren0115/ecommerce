@@ -61,6 +61,9 @@ interface AddToCartButtonProps {
   className?: string;
   variant?: "default" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
+  selectedSize?: string;
+  quantity?: number;
+  disabled?: boolean;
 }
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
@@ -68,6 +71,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   className = "",
   variant = "default",
   size = "md",
+  // selectedSize,
+  quantity,
+  disabled,
 }) => {
   const navigate = useNavigate();
   const { addToCart, getItemQuantity } = useCart();
@@ -91,7 +97,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   };
 
   const handleAddToCart = async () => {
-    if (product.stock === 0) return;
+    if (product.stock === 0 || disabled) return;
 
     if (!isAuthenticated) {
       // Redirect to login page with return URL
@@ -104,7 +110,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     // Simulate a small delay for better UX
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    addToCart(product, 1);
+    addToCart(product, quantity || 1);
     setIsAdding(false);
     setShowSuccess(true);
 

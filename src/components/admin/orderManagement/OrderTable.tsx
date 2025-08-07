@@ -105,10 +105,10 @@ const OrderTable: React.FC<OrderTableProps> = ({
                 <TableCell>
                   <div>
                     <div className="font-medium text-foreground">
-                      {order.customerId.fullname}
+                      {order.customerId?.fullname || "-"}
                     </div>
                     <div className="text-sm text-default-500">
-                      {order.customerId.email}
+                      {order.customerId?.email || "-"}
                     </div>
                   </div>
                 </TableCell>

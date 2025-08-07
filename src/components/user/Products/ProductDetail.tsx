@@ -65,58 +65,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
               />
             </div>
 
-            {/* Carousel Navigation - Always show on small screens for better UX */}
-            {/* <div className="lg:hidden absolute inset-0 flex items-center justify-between p-2 pointer-events-none">
-              <Button
-                isIconOnly
-                variant="solid"
-                size="sm"
-                onClick={prevImage}
-                disabled={images.length <= 1}
-                className={`pointer-events-auto transition-all ${
-                  images.length > 1
-                    ? "bg-black/70 text-white hover:bg-black/90"
-                    : "bg-gray-400/50 text-gray-600 cursor-not-allowed"
-                }`}>
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </Button>
-              <Button
-                isIconOnly
-                variant="solid"
-                size="sm"
-                onClick={nextImage}
-                disabled={images.length <= 1}
-                className={`pointer-events-auto transition-all ${
-                  images.length > 1
-                    ? "bg-black/70 text-white hover:bg-black/90"
-                    : "bg-gray-400/50 text-gray-600 cursor-not-allowed"
-                }`}>
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Button>
-            </div> */}
-
             {/* Image Counter - Always show on small screens */}
             <div className="lg:hidden absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
               {selectedImage + 1} / {Math.max(images.length, 1)}
@@ -277,6 +225,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
               className="w-full"
               variant="default"
               size="lg"
+              selectedSize={selectedSize}
             />
             <AddToWishlistButton
               product={product}

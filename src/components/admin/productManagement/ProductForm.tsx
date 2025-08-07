@@ -527,7 +527,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                             <SafeImage
                               src={preview}
                               alt={`Preview ${index + 1}`}
-                              className="w-full h-24 object-cover rounded-lg"
+                              className="w-full h-auto object-contain rounded-lg"
                               fallbackSrc="https://via.placeholder.com/96x96?text=Error"
                               draggable
                               onDragStart={(e: React.DragEvent) =>

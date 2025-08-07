@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Image, Select, SelectItem } from "@heroui/react";
+import { Button, Image } from "@heroui/react";
 import { Product, Size } from "../../../../types";
 import { productAPI, sizeAPI } from "../../../../api/api";
 import { addCacheBustingToProduct } from "../../../../utils/index";
@@ -24,6 +24,9 @@ const ProductDetail: React.FC = () => {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  // Available size options
+  const availableSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"];
 
   // const { addToCart } = useCart();
 
@@ -49,7 +52,9 @@ const ProductDetail: React.FC = () => {
         const sizesData = (sizesResponse.data as any)?.data || [];
         setSizes(Array.isArray(sizesData) ? sizesData : []);
       } catch (sizeError) {
-        // No sizes available for this product
+        console.warn("No sizes available for this product:", sizeError);
+        // Set default sizes if API fails
+        setSizes([]);
       }
     } catch (err: any) {
       console.error("Error fetching product:", err);
@@ -113,9 +118,32 @@ const ProductDetail: React.FC = () => {
     };
   }, [id]);
 
-  // const handleAddToCart = (product: Product, quantity: number) => {
-  //   addToCart(product, quantity);
-  // };
+  // Check if a size is available
+  const isSizeAvailable = (sizeName: string): boolean => {
+    // If no sizes data from API, assume all standard sizes are available
+    if (!sizes || sizes.length === 0) {
+      return true;
+    }
+    // Check if size exists in the sizes array from API
+    return sizes.some(
+      (size) =>
+        size.name.toLowerCase() === sizeName.toLowerCase() ||
+        size.name === sizeName
+    );
+  };
+
+  // Get size stock (if available in your Size type)
+  const getSizeStock = (sizeName: string): number | null => {
+    if (!sizes || sizes.length === 0) {
+      return null;
+    }
+    const sizeObj = sizes.find(
+      (size) =>
+        size.name.toLowerCase() === sizeName.toLowerCase() ||
+        size.name === sizeName
+    );
+    return sizeObj?.stock || null;
+  };
 
   const getBreadcrumbItems = (): BreadcrumbItemData[] => {
     const items: BreadcrumbItemData[] = [
@@ -151,6 +179,12 @@ const ProductDetail: React.FC = () => {
   const handleQuantityChange = (newQuantity: number) => {
     if (product && newQuantity >= 1 && newQuantity <= product.stock) {
       setQuantity(newQuantity);
+    }
+  };
+
+  const handleSizeSelect = (size: string) => {
+    if (isSizeAvailable(size)) {
+      setSelectedSize(size);
     }
   };
 
@@ -357,31 +391,82 @@ const ProductDetail: React.FC = () => {
               </div>
 
               {/* Size Selection */}
-              {sizes.length > 0 && (
-                <div className="space-y-3">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
                   <label className="text-sm font-medium text-foreground">
-                    Size
+                    Pilih Ukuran:
                   </label>
-                  <Select
-                    selectedKeys={selectedSize ? [selectedSize] : []}
-                    onSelectionChange={(keys) => {
-                      const selected = Array.from(keys)[0] as string;
-                      setSelectedSize(selected || "");
-                    }}
-                    placeholder="Select size"
-                    variant="bordered"
-                    className="w-full">
-                    {sizes.map((size) => (
-                      <SelectItem key={size._id}>{size.name}</SelectItem>
-                    ))}
-                  </Select>
+                  {selectedSize && (
+                    <span className="text-xs text-success-600 bg-success-50 px-2 py-1 rounded">
+                      Dipilih: {selectedSize}
+                    </span>
+                  )}
                 </div>
-              )}
+
+                <div className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap">
+                  {availableSizes.map((size) => {
+                    const isAvailable = isSizeAvailable(size);
+                    const isSelected = selectedSize === size;
+                    const sizeStock = getSizeStock(size);
+
+                    return (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => handleSizeSelect(size)}
+                        disabled={!isAvailable}
+                        className={`
+                          relative px-4 py-3 rounded-lg border text-sm font-medium 
+                          transition-all duration-200 min-w-[60px]
+                          ${
+                            isSelected
+                              ? "bg-foreground text-background border-foreground shadow-md"
+                              : isAvailable
+                                ? "bg-white border-default-300 text-foreground hover:border-foreground hover:bg-default-50"
+                                : "bg-default-100 border-default-200 text-default-400 cursor-not-allowed"
+                          }
+                          ${!isAvailable ? "opacity-60" : ""}
+                        `}
+                        title={
+                          !isAvailable
+                            ? "Ukuran tidak tersedia"
+                            : sizeStock
+                              ? `Stok: ${sizeStock}`
+                              : undefined
+                        }>
+                        {size}
+                        {!isAvailable && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-full h-0.5 bg-default-400 rotate-45"></div>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {!selectedSize && (
+                  <p className="text-xs text-warning-600 mt-2">
+                    * Silakan pilih ukuran sebelum menambahkan ke keranjang
+                  </p>
+                )}
+
+                {/* Size Guide Link */}
+                <button
+                  type="button"
+                  className="text-xs text-primary hover:text-primary-600 underline"
+                  onClick={() => {
+                    // Add size guide modal or navigation logic here
+                    console.log("Open size guide");
+                  }}>
+                  Panduan Ukuran
+                </button>
+              </div>
 
               {/* Quantity */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">
-                  Quantity
+                  Jumlah
                 </label>
                 <div className="flex items-center space-x-3">
                   <Button
@@ -389,22 +474,26 @@ const ProductDetail: React.FC = () => {
                     variant="bordered"
                     size="sm"
                     onClick={() => handleQuantityChange(quantity - 1)}
-                    disabled={quantity <= 1}>
+                    disabled={quantity <= 1}
+                    className="w-10 h-10">
                     -
                   </Button>
-                  <span className="w-12 text-center text-foreground">
-                    {quantity}
-                  </span>
+                  <div className="flex items-center justify-center w-16 h-10 border border-default-300 rounded-lg">
+                    <span className="text-foreground font-medium">
+                      {quantity}
+                    </span>
+                  </div>
                   <Button
                     isIconOnly
                     variant="bordered"
                     size="sm"
                     onClick={() => handleQuantityChange(quantity + 1)}
-                    disabled={quantity >= product.stock}>
+                    disabled={quantity >= product.stock}
+                    className="w-10 h-10">
                     +
                   </Button>
                   <span className="text-sm text-default-500">
-                    {product.stock} available
+                    {product.stock} tersedia
                   </span>
                 </div>
               </div>
@@ -413,9 +502,12 @@ const ProductDetail: React.FC = () => {
               <div className="space-y-3">
                 <AddToCartButton
                   product={product}
+                  selectedSize={selectedSize}
+                  quantity={quantity}
                   className="w-full"
                   variant="default"
                   size="lg"
+                  disabled={!selectedSize}
                 />
                 <AddToWishlistButton
                   product={product}
@@ -426,11 +518,25 @@ const ProductDetail: React.FC = () => {
                 />
               </div>
 
+              {/* Stock Alert */}
+              {product.stock < 5 && product.stock > 0 && (
+                <div className="bg-warning-50 border border-warning-200 rounded-lg p-3">
+                  <p className="text-sm text-warning-700">
+                    ⚠️ Stok terbatas! Hanya tersisa {product.stock} item
+                  </p>
+                </div>
+              )}
+
               {/* Product Description */}
               <div className="border-t border-default-200 pt-6">
-                <div className="text-sm text-default-600 leading-relaxed">
-                  <p className="mb-4">{product.description}</p>
-                  {product.detail && <p>{product.detail}</p>}
+                <h3 className="text-lg font-semibold text-foreground mb-3">
+                  Deskripsi Produk
+                </h3>
+                <div className="text-sm text-default-600 leading-relaxed space-y-2">
+                  <p>{product.description}</p>
+                  {product.detail && (
+                    <p className="text-xs text-default-500">{product.detail}</p>
+                  )}
                 </div>
               </div>
             </div>
