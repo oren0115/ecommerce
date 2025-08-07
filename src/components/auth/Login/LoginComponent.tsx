@@ -63,16 +63,16 @@ function LoginComponent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-[400px] min-h-[480px] space-y-8 p-8 bg-white/90 border border-gray-100 rounded-2xl shadow-none flex flex-col justify-center">
+      <div className="w-[400px] h-[750px] p-8 bg-white/90 border border-gray-100 rounded-2xl shadow-none flex flex-col">
         {/* Header */}
-        <div className="text-center">
+        <div className="text-center flex-shrink-0">
           <h1 className="text-3xl font-semibold text-gray-900 mb-2">
             Welcome back
           </h1>
           <p className="text-gray-600">Sign in to your account</p>
         </div>
         {/* Tab Navigation */}
-        <div className="flex bg-gray-100 p-1 rounded-xl mb-2">
+        <div className="flex bg-gray-100 p-1 rounded-xl mb-2 flex-shrink-0">
           <Link
             to="/auth/login"
             className={`flex-1 text-center py-2 px-4 rounded-lg font-medium transition-all duration-200 ${location.pathname === "/auth/login" ? "bg-black  text-white border border-gray-200" : "text-gray-600 hover:text-gray-900"}`}>
@@ -86,7 +86,7 @@ function LoginComponent() {
         </div>
         {/* Error Message */}
         {error && (
-          <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm">
+          <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm flex-shrink-0">
             <div className="mb-2">{error}</div>
             {unactivatedEmail && (
               <div className="mt-3 pt-3 border-t border-red-200">
@@ -103,7 +103,9 @@ function LoginComponent() {
           </div>
         )}
         {/* Login Form */}
-        <Form className="space-y-5" onSubmit={onSubmit}>
+        <Form
+          className="flex-1 flex flex-col justify-center space-y-5"
+          onSubmit={onSubmit}>
           <Input
             isRequired
             name="email"

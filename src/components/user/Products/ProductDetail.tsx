@@ -34,13 +34,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
     }
   };
 
-  const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % images.length);
-  };
+  // const nextImage = () => {
+  //   setSelectedImage((prev) => (prev + 1) % images.length);
+  // };
 
-  const prevImage = () => {
-    setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
-  };
+  // const prevImage = () => {
+  //   setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
+  // };
 
   // Use only actual product images
   const images = product.images?.map((img) => img.url) || [];
@@ -52,20 +52,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
         <div className="space-y-4">
           {/* Main Image - Carousel on small screens, static on large screens */}
           <div className="relative">
-            <div className="aspect-square w-full bg-default-100 rounded-lg overflow-hidden">
+            <div className="w-full bg-default-300 rounded-lg overflow-hidden">
               <Image
-                src={
-                  images[selectedImage] ||
-                  "https://via.placeholder.com/400x400?text=No+Image"
-                }
+                src={images[selectedImage] || ""}
                 alt={product.name}
-                className="w-full h-full object-contain"
+                className="w-full h-auto object-cover"
                 fallbackSrc="https://via.placeholder.com/400x400?text=No+Image"
               />
             </div>
 
             {/* Carousel Navigation - Always show on small screens for better UX */}
-            <div className="lg:hidden absolute inset-0 flex items-center justify-between p-2 pointer-events-none">
+            {/* <div className="lg:hidden absolute inset-0 flex items-center justify-between p-2 pointer-events-none">
               <Button
                 isIconOnly
                 variant="solid"
@@ -114,7 +111,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                   />
                 </svg>
               </Button>
-            </div>
+            </div> */}
 
             {/* Image Counter - Always show on small screens */}
             <div className="lg:hidden absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">

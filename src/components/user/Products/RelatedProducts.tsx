@@ -186,9 +186,9 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
   return (
     <div className="related-products mt-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-foreground">
+        <h3 className="text-xl font-bold text-foreground ">
           {getRelatedProductsTitle()}
-        </h2>
+        </h3>
         {totalSlides > 1 && (
           <div className="flex items-center space-x-2">
             <Button

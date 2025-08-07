@@ -85,22 +85,8 @@ function EmailActivationComponent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-8 bg-white/90 border border-gray-200 rounded-2xl shadow-sm flex flex-col justify-center">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-            <svg
-              className="w-8 h-8 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
-          </div>
+      <div className="w-[400px] h-[600px] p-8 bg-white/90 border border-gray-200 rounded-2xl shadow-sm flex flex-col">
+        <div className="text-center mb-8 flex-shrink-0">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Activate Your Account
           </h1>
@@ -112,55 +98,57 @@ function EmailActivationComponent() {
         </div>
 
         {success && (
-          <div className="p-4 bg-green-50 border-l-4 border-green-400 rounded text-green-700 text-sm mb-6">
+          <div className="p-4 bg-green-50 border-l-4 border-green-400 rounded text-green-700 text-sm mb-6 flex-shrink-0">
             {success}
           </div>
         )}
 
         {error && (
-          <div className="p-4 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm mb-6">
+          <div className="p-4 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm mb-6 flex-shrink-0">
             {error}
           </div>
         )}
 
-        {!tokenFromUrl && (
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Activation Token
-            </label>
-            <input
-              type="text"
-              value={activationToken}
-              onChange={(e) => setActivationToken(e.target.value)}
-              placeholder="Enter your activation token"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <Button
-              onClick={handleManualActivation}
-              isLoading={isLoading}
-              className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white">
-              {isLoading ? "Activating..." : "Activate Account"}
-            </Button>
-          </div>
-        )}
+        <div className="flex-1 flex flex-col justify-center">
+          {!tokenFromUrl && (
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Activation Token
+              </label>
+              <input
+                type="text"
+                value={activationToken}
+                onChange={(e) => setActivationToken(e.target.value)}
+                placeholder="Enter your activation token"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              />
+              <Button
+                onClick={handleManualActivation}
+                isLoading={isLoading}
+                className="w-full mt-3 bg-gray-900 hover:bg-gray-600 text-white">
+                {isLoading ? "Activating..." : "Activate Account"}
+              </Button>
+            </div>
+          )}
 
-        {userData && (
-          <div className="text-center">
-            <p className="text-gray-600 text-sm mb-4">
-              Didn't receive the email? Check your spam folder or request a new
-              one.
-            </p>
-            <Button
-              onClick={handleResendActivation}
-              isLoading={isResending}
-              variant="light"
-              className="text-blue-600 hover:text-blue-700">
-              {isResending ? "Sending..." : "Resend Activation Email"}
-            </Button>
-          </div>
-        )}
+          {userData && (
+            <div className="text-center">
+              <p className="text-gray-600 text-sm mb-4">
+                Didn't receive the email? Check your spam folder or request a
+                new one.
+              </p>
+              <Button
+                onClick={handleResendActivation}
+                isLoading={isResending}
+                variant="light"
+                className="text-gray-900 hover:text-gray-600">
+                {isResending ? "Sending..." : "Resend Activation Email"}
+              </Button>
+            </div>
+          )}
+        </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center flex-shrink-0">
           <Link
             to="/auth/login"
             className="text-sm text-gray-600 hover:text-gray-800 underline">

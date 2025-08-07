@@ -58,7 +58,7 @@ function ResetPasswordComponent() {
   if (!token) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="w-[400px] min-h-[480px] space-y-8 p-8 bg-white/90 border border-gray-100 rounded-2xl shadow-none flex flex-col justify-center">
+        <div className="w-[400px] h-[600px] p-8 bg-white/90 border border-gray-100 rounded-2xl shadow-none flex flex-col justify-center">
           <div className="text-center">
             <h1 className="text-3xl font-semibold text-gray-900 mb-2">
               Invalid Reset Link
@@ -80,9 +80,9 @@ function ResetPasswordComponent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-[400px] min-h-[480px] space-y-8 p-8 bg-white/90 border border-gray-100 rounded-2xl shadow-none flex flex-col justify-center">
+      <div className="w-[400px] h-[600px] p-8 bg-white/90 border border-gray-100 rounded-2xl shadow-none flex flex-col">
         {/* Header */}
-        <div className="text-center">
+        <div className="text-center flex-shrink-0">
           <h1 className="text-3xl font-semibold text-gray-900 mb-2">
             Reset Password
           </h1>
@@ -91,20 +91,22 @@ function ResetPasswordComponent() {
 
         {/* Error Message */}
         {error && (
-          <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm">
+          <div className="p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700 text-sm flex-shrink-0">
             {error}
           </div>
         )}
 
         {/* Success Message */}
         {success && (
-          <div className="p-3 bg-green-50 border-l-4 border-gray-400 text-gray-900 text-sm">
+          <div className="p-3 bg-green-50 border-l-4 border-gray-400 text-gray-900 text-sm flex-shrink-0">
             {success}
           </div>
         )}
 
         {/* Form */}
-        <Form className="space-y-5" onSubmit={onSubmit}>
+        <Form
+          className="flex-1 flex flex-col justify-center space-y-5"
+          onSubmit={onSubmit}>
           <Input
             isRequired
             name="newPassword"
@@ -144,7 +146,7 @@ function ResetPasswordComponent() {
         </Form>
 
         {/* Footer */}
-        <div className="text-center space-y-2 mt-4">
+        <div className="text-center space-y-2 mt-4 flex-shrink-0">
           <p className="text-sm text-gray-600">
             Remember your password?{" "}
             <Link
