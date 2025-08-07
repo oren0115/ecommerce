@@ -8,7 +8,7 @@ import ProductReviews from "../../../../components/user/Products/ProductReviews"
 import RelatedProducts from "../../../../components/user/Products/RelatedProducts";
 import AddToWishlistButton from "../../../../components/user/Whistlist/AddToWishlistButton";
 import AddToCartButton from "../../../../components/user/Cart/AddToCartButton";
-import { useCart } from "../../../../contexts/CartContext";
+// import { useCart } from "../../../../contexts/CartContext";
 import Breadcrumb, {
   BreadcrumbItemData,
 } from "../../../../components/common/Breadcrumb";
@@ -25,7 +25,7 @@ const ProductDetail: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
 
   useEffect(() => {
     if (id) {
