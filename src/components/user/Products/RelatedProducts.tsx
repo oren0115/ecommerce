@@ -162,23 +162,23 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
   }
 
   // Check if all related products are from the same category as the current product
-  const getRelatedProductsTitle = () => {
-    if (relatedProducts.length === 0) return "Related Products";
+  // const getRelatedProductsTitle = () => {
+  //   if (relatedProducts.length === 0) return "Related Products";
 
-    // Get the first product's categories
-    const firstProductCategories = relatedProducts[0]?.categoryIds || [];
-    const allSameCategory = relatedProducts.every((product) =>
-      product.categoryIds.some((cat) =>
-        firstProductCategories.some((firstCat) => firstCat._id === cat._id)
-      )
-    );
+  //   // Get the first product's categories
+  //   const firstProductCategories = relatedProducts[0]?.categoryIds || [];
+  //   const allSameCategory = relatedProducts.every((product) =>
+  //     product.categoryIds.some((cat) =>
+  //       firstProductCategories.some((firstCat) => firstCat._id === cat._id)
+  //     )
+  //   );
 
-    if (allSameCategory && firstProductCategories.length > 0) {
-      return `More ${firstProductCategories[0].name}`;
-    }
+  //   if (allSameCategory && firstProductCategories.length > 0) {
+  //     return `More ${firstProductCategories[0].name}`;
+  //   }
 
-    return "Related Products";
-  };
+  //   return "Related Products";
+  // };
 
   // Calculate transform for smooth sliding
   const transformX = -(currentIndex * 100);
@@ -186,9 +186,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
   return (
     <div className="related-products mt-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-foreground ">
-          {getRelatedProductsTitle()}
-        </h3>
+        <h3 className="text-xl font-bold text-foreground ">Related Products</h3>
         {totalSlides > 1 && (
           <div className="flex items-center space-x-2">
             <Button

@@ -99,7 +99,7 @@ const WishlistDrawerItem: React.FC<WishlistDrawerItemProps> = ({
             onPress={() => handleAddToCart()}
             isDisabled={product.stock === 0 || isAddingToCart}
             isLoading={isAddingToCart}
-            className="h-8 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 border-0 font-medium transition-colors"
+            className="h-8 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 border-0 font-medium transition-colors"
             startContent={
               !isAddingToCart && (
                 <Icon icon="mdi:plus" className="h-3.5 w-3.5" />

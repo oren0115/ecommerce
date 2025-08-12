@@ -285,12 +285,16 @@ const PromotionalCarousel: React.FC<PromotionalCarouselProps> = ({
             )}
 
             {/* CTA Button - Enhanced visibility */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
               <Button
-                size="lg"
                 color="default"
                 variant="solid"
-                className="bg-white text-gray-900 hover:bg-gray-100 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="
+      bg-white text-gray-900 shadow-lg transform hover:scale-105 hover:bg-gray-100 hover:shadow-xl
+      text-sm px-3 py-1.5
+      sm:text-base sm:px-4 sm:py-2
+      md:text-lg md:px-6 md:py-3
+    "
                 onClick={() => onSlideClick && onSlideClick(currentSlide)}
                 endContent={
                   <Icon icon="mdi:arrow-right" className="w-4 h-4" />

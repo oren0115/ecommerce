@@ -17,16 +17,16 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
-  const [sizes, setSizes] = useState<Size[]>([]);
+  const [, setSizes] = useState<Size[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
   // Available size options
-  const availableSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"];
+  // const availableSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "XXXXL"];
 
   // const { addToCart } = useCart();
 
@@ -119,31 +119,31 @@ const ProductDetail: React.FC = () => {
   }, [id]);
 
   // Check if a size is available
-  const isSizeAvailable = (sizeName: string): boolean => {
-    // If no sizes data from API, assume all standard sizes are available
-    if (!sizes || sizes.length === 0) {
-      return true;
-    }
-    // Check if size exists in the sizes array from API
-    return sizes.some(
-      (size) =>
-        size.name.toLowerCase() === sizeName.toLowerCase() ||
-        size.name === sizeName
-    );
-  };
+  // const isSizeAvailable = (sizeName: string): boolean => {
+  //   // If no sizes data from API, assume all standard sizes are available
+  //   if (!sizes || sizes.length === 0) {
+  //     return true;
+  //   }
+  //   // Check if size exists in the sizes array from API
+  //   return sizes.some(
+  //     (size) =>
+  //       size.name.toLowerCase() === sizeName.toLowerCase() ||
+  //       size.name === sizeName
+  //   );
+  // };
 
   // Get size stock (if available in your Size type)
-  const getSizeStock = (sizeName: string): number | null => {
-    if (!sizes || sizes.length === 0) {
-      return null;
-    }
-    const sizeObj = sizes.find(
-      (size) =>
-        size.name.toLowerCase() === sizeName.toLowerCase() ||
-        size.name === sizeName
-    );
-    return sizeObj?.stock || null;
-  };
+  // const getSizeStock = (sizeName: string): number | null => {
+  //   if (!sizes || sizes.length === 0) {
+  //     return null;
+  //   }
+  //   const sizeObj = sizes.find(
+  //     (size) =>
+  //       size.name.toLowerCase() === sizeName.toLowerCase() ||
+  //       size.name === sizeName
+  //   );
+  //   return sizeObj?.stock || null;
+  // };
 
   const getBreadcrumbItems = (): BreadcrumbItemData[] => {
     const items: BreadcrumbItemData[] = [
@@ -182,11 +182,11 @@ const ProductDetail: React.FC = () => {
     }
   };
 
-  const handleSizeSelect = (size: string) => {
-    if (isSizeAvailable(size)) {
-      setSelectedSize(size);
-    }
-  };
+  // const handleSizeSelect = (size: string) => {
+  //   if (isSizeAvailable(size)) {
+  //     setSelectedSize(size);
+  //   }
+  // };
 
   // Use only actual product images
   const images = product?.images?.map((img) => img.url) || [];
@@ -249,7 +249,7 @@ const ProductDetail: React.FC = () => {
             <div className="mt-6">
               <button
                 onClick={() => navigate("/shop")}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
                 Back to Shop
               </button>
             </div>
@@ -391,7 +391,7 @@ const ProductDetail: React.FC = () => {
               </div>
 
               {/* Size Selection */}
-              <div className="space-y-3">
+              {/* <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium text-foreground">
                     Pilih Ukuran:
@@ -452,7 +452,7 @@ const ProductDetail: React.FC = () => {
                 )}
 
                 {/* Size Guide Link */}
-                <button
+              {/* <button
                   type="button"
                   className="text-xs text-primary hover:text-primary-600 underline"
                   onClick={() => {
@@ -461,7 +461,7 @@ const ProductDetail: React.FC = () => {
                   }}>
                   Panduan Ukuran
                 </button>
-              </div>
+              </div> */}
 
               {/* Quantity */}
               <div className="space-y-3">

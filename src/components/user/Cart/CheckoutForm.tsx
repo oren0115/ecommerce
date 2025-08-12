@@ -358,7 +358,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
                   key={delivery.value}
                   className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 active:scale-[0.98] ${
                     formData.deliveryType === delivery.value
-                      ? "border-blue-500 bg-blue-50"
+                      ? "border-gray-500 bg-gray-50"
                       : "border-gray-200"
                   }`}>
                   <input
@@ -381,7 +381,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
                       icon={delivery.icon}
                       className={`w-5 h-5 transition-colors duration-200 ${
                         formData.deliveryType === delivery.value
-                          ? "text-blue-600"
+                          ? "text-gray-600"
                           : "text-gray-500"
                       }`}
                     />
@@ -445,7 +445,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
                   key={method.value}
                   className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 active:scale-[0.98] ${
                     formData.paymentType === method.value
-                      ? "border-blue-500 bg-blue-50"
+                      ? "border-gray-500 bg-gray-50"
                       : "border-gray-200"
                   }`}>
                   <input
@@ -468,7 +468,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
                       icon={method.icon}
                       className={`w-5 h-5 transition-colors duration-200 ${
                         formData.paymentType === method.value
-                          ? "text-blue-600"
+                          ? "text-gray-600"
                           : "text-gray-500"
                       }`}
                     />
@@ -537,7 +537,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
       </div>
 
       {/* Fixed Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:px-6">
+      <div className=" bg-white border-t border-gray-200 p-4 sm:px-6">
         <Button
           type="submit"
           onClick={handleSubmit}
@@ -558,73 +558,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
       </div>
 
       {/* Enhanced Mobile Styles */}
-      <style>{`
-        /* Improved touch targets */
-        @media (max-width: 640px) {
-          input[type="radio"] + div {
-            min-width: 40px;
-            min-height: 40px;
-          }
-          
-          label {
-            min-height: 56px;
-          }
-          
-          /* Better tap feedback */
-          .active\\:scale-\\[0\\.98\\]:active {
-            transform: scale(0.98);
-            transition: transform 0.1s ease-out;
-          }
-          
-          /* Ensure form inputs are properly sized */
-          input, textarea, select {
-            font-size: 16px; /* Prevents zoom on iOS */
-          }
-          
-          /* Better spacing for mobile */
-          .space-y-3 > * + * {
-            margin-top: 0.75rem;
-          }
-          
-          /* Smooth scrolling */
-          html {
-            scroll-behavior: smooth;
-          }
-          
-          /* Better visual feedback for interactive elements */
-          button:active {
-            transform: scale(0.98);
-            transition: transform 0.1s ease-out;
-          }
-          
-          /* Ensure proper viewport handling */
-          .min-h-screen {
-            min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height */
-          }
-        }
-
-        /* Loading state animations */
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
-        }
-        
-        .animate-pulse {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        /* Smooth transitions */
-        * {
-          -webkit-tap-highlight-color: transparent;
-        }
-        
-        .transition-all {
-          transition-property: all;
-          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-          transition-duration: 200ms;
-        }
-      `}</style>
     </div>
   );
 };
