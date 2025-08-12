@@ -158,7 +158,7 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({ isOpen, onClose }) => {
           {loading ? (
             // Loading State
             <div className="flex flex-col items-center justify-center h-full">
-              <Spinner size="lg" />
+              <Spinner size="lg" color="default" />
               <p className="text-default-500 mt-4">Loading wishlist...</p>
             </div>
           ) : error ? (

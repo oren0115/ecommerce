@@ -290,11 +290,11 @@ const PromotionalCarousel: React.FC<PromotionalCarouselProps> = ({
                 color="default"
                 variant="solid"
                 className="
-      bg-white text-gray-900 shadow-lg transform hover:scale-105 hover:bg-gray-100 hover:shadow-xl
-      text-sm px-3 py-1.5
-      sm:text-base sm:px-4 sm:py-2
-      md:text-lg md:px-6 md:py-3
-    "
+              bg-white text-gray-900 shadow-lg transform hover:scale-105 hover:bg-gray-100 hover:shadow-xl
+                text-sm px-3 py-1.5
+                sm:text-base sm:px-4 sm:py-2
+                md:text-lg md:px-6 md:py-3
+                "
                 onClick={() => onSlideClick && onSlideClick(currentSlide)}
                 endContent={
                   <Icon icon="mdi:arrow-right" className="w-4 h-4" />
@@ -323,7 +323,7 @@ const PromotionalCarousel: React.FC<PromotionalCarouselProps> = ({
             <div key={index} className="relative">
               <button
                 onClick={() => goToSlide(index)}
-                className={`rounded-full transition-all duration-500 ${
+                className={`rounded-full transition-all duration-500 cursor-pointer ${
                   index === currentIndex
                     ? "bg-white w-8 h-2"
                     : "bg-white/50 hover:bg-white/70 w-2 h-2"

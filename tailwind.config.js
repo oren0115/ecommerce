@@ -26,6 +26,12 @@ export default {
       animation: {
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",
       },
+      colors: {
+        primary: "#000000",
+        licin: {
+          500: "#18181B",
+        },
+      },
     },
   },
   darkMode: "class",
